@@ -1,7 +1,13 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_photo/google_photo/google_photo_service.dart';
 import 'package:google_photo/shared/constants.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../firebase_options.dart';
 
 @module
 abstract class RegisterModule {
@@ -15,4 +21,16 @@ abstract class RegisterModule {
   GooglePhotoService getGooglePhotoService(
           Dio dio, @Named('baseUrl') String baseUrl) =>
       GooglePhotoService(dio, baseUrl: baseUrl);
+
+  GoogleSignIn get googleSignIn => GoogleSignIn(
+        scopes: [
+          'https://www.googleapis.com/auth/photoslibrary.readonly',
+          'https://www.googleapis.com/auth/photoslibrary.appendonly',
+        ],
+        clientId: Platform.isIOS
+            ? DefaultFirebaseOptions.currentPlatform.iosClientId
+            : DefaultFirebaseOptions.currentPlatform.androidClientId,
+      );
+
+  FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
 }
