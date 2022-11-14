@@ -24,8 +24,10 @@ abstract class RegisterModule {
 
   GoogleSignIn get googleSignIn => GoogleSignIn(
         scopes: [
-          'https://www.googleapis.com/auth/photoslibrary.readonly',
-          'https://www.googleapis.com/auth/photoslibrary.appendonly',
+          // 'https://www.googleapis.com/auth/photoslibrary.readonly',
+          // 'https://www.googleapis.com/auth/photoslibrary.appendonly',
+          'https://www.googleapis.com/auth/photoslibrary.readonly.appcreateddata',
+          'https://www.googleapis.com/auth/photoslibrary.edit.appcreateddata',
         ],
         clientId: Platform.isIOS
             ? DefaultFirebaseOptions.currentPlatform.iosClientId
