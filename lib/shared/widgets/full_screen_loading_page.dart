@@ -29,12 +29,10 @@ class FullScreenLoadingPage extends StatelessWidget {
         Visibility(
           visible: isLoading,
           child: Positioned.fill(
-            child: SafeArea(
-              child: Container(
-                color: Colors.white.withOpacity(.7),
-                child: const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                ),
+            child: Container(
+              color: Colors.white.withOpacity(.7),
+              child: const Center(
+                child: CircularProgressIndicator.adaptive(),
               ),
             ),
           ),

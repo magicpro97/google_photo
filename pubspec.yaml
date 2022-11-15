@@ -55,7 +55,8 @@ dependencies:
   path_provider: ^2.0.11
   flutter_secure_storage: ^6.0.0
   flutter_uploader: ^1.2.1
-  media_picker_widget: ^0.0.9
+  media_picker_widget:
+    git: https://github.com/magicpro97/media_picker_widget
 
 
 dev_dependencies:

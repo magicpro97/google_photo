@@ -531,7 +531,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.5+3"
+    version: "0.8.6"
   image_picker_android:
     dependency: transitive
     description:
@@ -640,9 +640,11 @@ packages:
   media_picker_widget:
     dependency: "direct main"
     description:
-      name: media_picker_widget
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: a7c1a6ba1051d9daf0b091501cf88431becafed8
+      url: "https://github.com/magicpro97/media_picker_widget"
+    source: git
     version: "0.0.9"
   meta:
     dependency: transitive
@@ -755,7 +757,7 @@ packages:
       name: photo_manager
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.0"
+    version: "2.5.0"
   platform:
     dependency: transitive
     description:
