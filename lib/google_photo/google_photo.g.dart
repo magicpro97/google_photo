@@ -46,8 +46,8 @@ CreateAlbumResponse _$CreateAlbumResponseFromJson(Map<String, dynamic> json) =>
 GetListMediaItemResponse _$GetListMediaItemResponseFromJson(
         Map<String, dynamic> json) =>
     GetListMediaItemResponse(
-      (json['mediaItems'] as List<dynamic>)
-          .map((e) => MediaItem.fromJson(e as Map<String, dynamic>))
+      (json['mediaItems'] as List<dynamic>?)
+          ?.map((e) => MediaItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['nextPageToken'] as String,
     );

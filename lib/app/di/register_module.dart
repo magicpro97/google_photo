@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_photo/app/token_interceptor.dart';
 import 'package:google_photo/google_photo/google_photo_service.dart';
 import 'package:google_photo/shared/constants.dart';
@@ -15,21 +16,22 @@ abstract class RegisterModule {
   @Named('BaseUrl')
   String get baseUrl => Constants.baseUrl;
 
-  Dio getDio(
-    @Named('baseUrl') String baseUrl,
-    TokenInterceptor tokenInterceptor,
-  ) =>
+  Dio getDio(@Named('BaseUrl') String baseUrl,
+      TokenInterceptor tokenInterceptor,) =>
       Dio(
         BaseOptions(
           baseUrl: baseUrl,
         ),
-      )..interceptors.add(tokenInterceptor);
+      )
+        ..interceptors.add(tokenInterceptor);
 
-  GooglePhotoService getGooglePhotoService(
-          Dio dio, @Named('baseUrl') String baseUrl) =>
+  @singleton
+  GooglePhotoService getGooglePhotoService(Dio dio,
+      @Named('BaseUrl') String baseUrl,) =>
       GooglePhotoService(dio, baseUrl: baseUrl);
 
-  GoogleSignIn get googleSignIn => GoogleSignIn(
+  GoogleSignIn get googleSignIn =>
+      GoogleSignIn(
         scopes: [
           // 'https://www.googleapis.com/auth/photoslibrary.readonly',
           // 'https://www.googleapis.com/auth/photoslibrary.appendonly',
@@ -43,6 +45,11 @@ abstract class RegisterModule {
 
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
 
-  TokenInterceptor getTokenInterceptor(GoogleSignIn googleSignIn) =>
-      TokenInterceptor(googleSignIn);
+  @singleton
+  FlutterSecureStorage get flutterSecureStorage =>
+      const FlutterSecureStorage(
+        aOptions: AndroidOptions(
+          encryptedSharedPreferences: true,
+        )
+      );
 }

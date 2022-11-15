@@ -15,7 +15,10 @@ class GooglePhotoPagingRequest {
   @JsonKey(includeIfNull: false)
   final String? pageToken;
 
-  GooglePhotoPagingRequest(this.pageSize, this.pageToken);
+  GooglePhotoPagingRequest({
+    this.pageSize,
+    this.pageToken,
+  });
 
   Map<String, dynamic> toJson() => _$GooglePhotoPagingRequestToJson(this);
 }
@@ -57,12 +60,12 @@ class CreateAlbumResponse extends GooglePhotoPagingResponse {
 
 @JsonSerializable(createToJson: false)
 class GetListMediaItemResponse extends GooglePhotoPagingResponse {
-  final List<MediaItem> mediaItems;
+  final List<MediaItem>? mediaItems;
 
   GetListMediaItemResponse(
-      this.mediaItems,
-      super.nextPageToken,
-      );
+    this.mediaItems,
+    super.nextPageToken,
+  );
 
   factory GetListMediaItemResponse.fromJson(Map<String, dynamic> json) =>
       _$GetListMediaItemResponseFromJson(json);
@@ -203,8 +206,7 @@ class Photo {
     this.exposureTime,
   );
 
-  factory Photo.fromJson(Map<String, dynamic> json) =>
-      _$PhotoFromJson(json);
+  factory Photo.fromJson(Map<String, dynamic> json) => _$PhotoFromJson(json);
 
   Map<String, dynamic> toJson() => _$PhotoToJson(this);
 }
@@ -219,20 +221,24 @@ class Video {
 
   Video(this.cameraMake, this.cameraModel, this.fps, this.status);
 
-  factory Video.fromJson(Map<String, dynamic> json) =>
-      _$VideoFromJson(json);
+  factory Video.fromJson(Map<String, dynamic> json) => _$VideoFromJson(json);
 
   Map<String, dynamic> toJson() => _$VideoToJson(this);
 }
 
 VideoProcessingStatus _videoProcessingStatusFromJson(String value) {
-  return VideoProcessingStatus.values.firstWhere((element) => element.value == value);
+  return VideoProcessingStatus.values
+      .firstWhere((element) => element.value == value);
 }
 
 enum VideoProcessingStatus {
-  unspecified('UNSPECIFIED'), processing('PROCESSING'), ready('READY'), fail('FAILED');
+  unspecified('UNSPECIFIED'),
+  processing('PROCESSING'),
+  ready('READY'),
+  fail('FAILED');
 
   final String value;
+
   const VideoProcessingStatus(this.value);
 }
 

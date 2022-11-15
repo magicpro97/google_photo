@@ -1,5 +1,5 @@
 // DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
-// This is a library that provides messages for a en locale. All the
+// This is a library that provides messages for a vi locale. All the
 // messages from the main program should be duplicated here with the same
 // function name.
 
@@ -18,16 +18,16 @@ final messages = new MessageLookup();
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  String get localeName => 'en';
+  String get localeName => 'vi';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "album": MessageLookupByLibrary.simpleMessage("Album"),
-        "app_name": MessageLookupByLibrary.simpleMessage("Google Photos"),
+        "app_name": MessageLookupByLibrary.simpleMessage("Ảnh"),
         "login_unsuccessfully":
-            MessageLookupByLibrary.simpleMessage("Login unsuccessfully!"),
-        "photo": MessageLookupByLibrary.simpleMessage("Photo"),
+            MessageLookupByLibrary.simpleMessage("Đăng nhập thất bại."),
+        "photo": MessageLookupByLibrary.simpleMessage("Ảnh"),
         "something_happened": MessageLookupByLibrary.simpleMessage(
-            "Something happened. Please try later!")
+            "Có sự cố xảy ra. Vui lòng thử lại sau!")
       };
 }

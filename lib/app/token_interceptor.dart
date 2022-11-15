@@ -1,24 +1,25 @@
 import 'package:dio/dio.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:google_photo/authencation/authentication_storage.dart';
+import 'package:injectable/injectable.dart';
 
+@singleton
 class TokenInterceptor extends Interceptor {
-  final GoogleSignIn _googleSignIn;
+  final AuthenticationStorage _authenticationStorage;
 
-  TokenInterceptor(this._googleSignIn);
+  TokenInterceptor(this._authenticationStorage);
 
   @override
   void onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final currentUser = _googleSignIn.currentUser;
+    final accessToken = await _authenticationStorage.getAccessToken();
     var newOptions = options;
-    if (currentUser != null) {
-      final authentication = await currentUser.authentication;
+    if (accessToken != null) {
       newOptions = options.copyWith(
         headers: {
           ...options.headers,
-          'Authorization': 'Bearer ${authentication.accessToken}',
+          'Authorization': 'Bearer $accessToken',
         },
       );
     }

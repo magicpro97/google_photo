@@ -6,11 +6,15 @@ class FullScreenLoadingPage extends StatelessWidget {
     this.isLoading = false,
     this.body,
     this.appBar,
+    this.bottomNavigationBar,
+    this.floatingActionButton,
   }) : super(key: key);
 
   final bool isLoading;
   final Widget? body;
   final PreferredSizeWidget? appBar;
+  final Widget? bottomNavigationBar;
+  final Widget? floatingActionButton;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +23,8 @@ class FullScreenLoadingPage extends StatelessWidget {
         Scaffold(
           appBar: appBar,
           body: body,
+          bottomNavigationBar: bottomNavigationBar,
+          floatingActionButton: floatingActionButton,
         ),
         Visibility(
           visible: isLoading,

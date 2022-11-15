@@ -1,4 +1,7 @@
 {
   "app_name": "Ảnh",
-  "login_unsuccessfully": "Đăng nhập thất bại."
+  "login_unsuccessfully": "Đăng nhập thất bại.",
+  "something_happened": "Có sự cố xảy ra. Vui lòng thử lại sau!",
+  "photo": "Ảnh",
+  "album": "Album"
 }

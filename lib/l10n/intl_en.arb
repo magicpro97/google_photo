@@ -1,4 +1,7 @@
 {
   "app_name": "Google Photos",
-  "login_unsuccessfully": "Login unsuccessfully!"
+  "login_unsuccessfully": "Login unsuccessfully!",
+  "something_happened": "Something happened. Please try later!",
+  "photo": "Photo",
+  "album": "Album"
 }

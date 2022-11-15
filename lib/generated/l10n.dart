@@ -69,6 +69,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Something happened. Please try later!`
+  String get something_happened {
+    return Intl.message(
+      'Something happened. Please try later!',
+      name: 'something_happened',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Photo`
+  String get photo {
+    return Intl.message(
+      'Photo',
+      name: 'photo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Album`
+  String get album {
+    return Intl.message(
+      'Album',
+      name: 'album',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
