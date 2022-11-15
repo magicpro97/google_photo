@@ -59,6 +59,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Login unsuccessfully!`
+  String get login_unsuccessfully {
+    return Intl.message(
+      'Login unsuccessfully!',
+      name: 'login_unsuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -67,6 +77,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'vi'),
     ];
   }
 

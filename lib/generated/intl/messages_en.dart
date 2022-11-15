@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "app_name": MessageLookupByLibrary.simpleMessage("Google Photos")
+        "app_name": MessageLookupByLibrary.simpleMessage("Google Photos"),
+        "login_unsuccessfully":
+            MessageLookupByLibrary.simpleMessage("Login unsuccessfully!")
       };
 }

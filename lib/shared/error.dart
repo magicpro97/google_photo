@@ -7,7 +7,10 @@ class AppError {
   AppError(this.message);
 }
 
-Future<void> showError(BuildContext context, AppError error) {
+Future<void> showError(
+  BuildContext context,
+  AppError error,
+) {
   return showFlash(
     context: context,
     duration: const Duration(seconds: 3),

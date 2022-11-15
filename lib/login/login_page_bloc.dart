@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 
+import '../generated/l10n.dart';
 import '../shared/error.dart';
 
 part 'login_page_event.dart';
@@ -34,13 +35,13 @@ class LoginPageBloc extends Bloc<LoginPageEvent, LoginPageState> {
       if (googleAccount != null) {
         emit(LoginSuccess());
       } else {
-        emit(LoginError(AppError('Login unsuccessfully!')));
+        emit(LoginError(AppError(S.current.login_unsuccessfully)));
       }
 
       emit(const LoginPageLoading(false));
     } catch (e) {
       emit(const LoginPageLoading(false));
-      emit(LoginError(AppError('Login unsuccessfully!')));
+      emit(LoginError(AppError(S.current.login_unsuccessfully)));
     }
   }
 }
