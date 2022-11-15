@@ -1,0 +1,12 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by LinhNT102 on 15/11/2022.
+
+*/
+
+FUAllFilesUploadedMessage = "All files have been uploaded";
+NSPhotoLibraryUsageDescription = "Get photo for uploading";
+NSCameraUsageDescription = "Take a photo for uploading";
+NSMicrophoneUsageDescription = "Record videos for uploading";

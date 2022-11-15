@@ -3,5 +3,8 @@
   "login_unsuccessfully": "Đăng nhập thất bại.",
   "something_happened": "Có sự cố xảy ra. Vui lòng thử lại sau!",
   "photo": "Ảnh",
-  "album": "Album"
+  "album": "Album",
+  "session_expired": "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!",
+  "next": "Tiếp theo",
+  "error": "Lỗi"
 }

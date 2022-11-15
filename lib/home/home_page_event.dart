@@ -8,3 +8,12 @@ class GetMediaItems extends HomePageEvent {
   @override
   List<Object?> get props => [];
 }
+
+class UploadMedia extends HomePageEvent {
+  final List<Media> _mediaList;
+
+  const UploadMedia(this._mediaList);
+
+  @override
+  List<Object?> get props => [_mediaList];
+}

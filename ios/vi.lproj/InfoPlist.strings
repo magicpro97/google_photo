@@ -1,0 +1,12 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by LinhNT102 on 15/11/2022.
+
+*/
+
+FUAllFilesUploadedMessage = "Tất cả file đã được tải";
+NSPhotoLibraryUsageDescription = "Lấy ảnh để tải lên";
+NSCameraUsageDescription = "Chụp ảnh để tải lên";
+NSMicrophoneUsageDescription = "Quay video để tải lên";

@@ -3,5 +3,8 @@
   "login_unsuccessfully": "Login unsuccessfully!",
   "something_happened": "Something happened. Please try later!",
   "photo": "Photo",
-  "album": "Album"
+  "album": "Album",
+  "session_expired": "Session expired. Please login again!",
+  "next": "Next",
+  "error": "Error"
 }

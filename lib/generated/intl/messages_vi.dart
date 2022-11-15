@@ -24,9 +24,13 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "album": MessageLookupByLibrary.simpleMessage("Album"),
         "app_name": MessageLookupByLibrary.simpleMessage("Ảnh"),
+        "error": MessageLookupByLibrary.simpleMessage("Lỗi"),
         "login_unsuccessfully":
             MessageLookupByLibrary.simpleMessage("Đăng nhập thất bại."),
+        "next": MessageLookupByLibrary.simpleMessage("Tiếp theo"),
         "photo": MessageLookupByLibrary.simpleMessage("Ảnh"),
+        "session_expired": MessageLookupByLibrary.simpleMessage(
+            "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!"),
         "something_happened": MessageLookupByLibrary.simpleMessage(
             "Có sự cố xảy ra. Vui lòng thử lại sau!")
       };

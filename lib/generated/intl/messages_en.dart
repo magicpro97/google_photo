@@ -24,9 +24,13 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "album": MessageLookupByLibrary.simpleMessage("Album"),
         "app_name": MessageLookupByLibrary.simpleMessage("Google Photos"),
+        "error": MessageLookupByLibrary.simpleMessage("Error"),
         "login_unsuccessfully":
             MessageLookupByLibrary.simpleMessage("Login unsuccessfully!"),
+        "next": MessageLookupByLibrary.simpleMessage("Next"),
         "photo": MessageLookupByLibrary.simpleMessage("Photo"),
+        "session_expired": MessageLookupByLibrary.simpleMessage(
+            "Session expired. Please login again!"),
         "something_happened": MessageLookupByLibrary.simpleMessage(
             "Something happened. Please try later!")
       };

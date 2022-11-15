@@ -54,6 +54,8 @@ dependencies:
   video_thumbnail: ^0.5.3
   path_provider: ^2.0.11
   flutter_secure_storage: ^6.0.0
+  flutter_uploader: ^1.2.1
+  media_picker_widget: ^0.0.9
 
 
 dev_dependencies:

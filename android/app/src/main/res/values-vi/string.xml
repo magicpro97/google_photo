@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="flutter_uploader_notification_started">Bắt đầu tải lên</string>
+    <string name="flutter_uploader_notification_in_progress">Đang tải lên</string>
+    <string name="flutter_uploader_notification_canceled">Hủy tải lên</string>
+    <string name="flutter_uploader_notification_failed">Tải lên thất bại</string>
+    <string name="flutter_uploader_notification_complete">Tải lên hoàn tất</string>
+</resources>

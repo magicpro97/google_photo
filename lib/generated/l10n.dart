@@ -99,6 +99,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Session expired. Please login again!`
+  String get session_expired {
+    return Intl.message(
+      'Session expired. Please login again!',
+      name: 'session_expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next`
+  String get next {
+    return Intl.message(
+      'Next',
+      name: 'next',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get error {
+    return Intl.message(
+      'Error',
+      name: 'error',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

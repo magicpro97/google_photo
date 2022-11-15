@@ -58,9 +58,9 @@ class _HomePageState extends State<HomePage> {
       isLoading: state is HomePageLoading ? state.isLoading : false,
       body: IndexedStack(
         index: _currentIndex,
-        children: const [
-          PhotoListView(),
-          PhotoListView(),
+        children: [
+          const PhotoListView(),
+          Container(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

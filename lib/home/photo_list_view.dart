@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:media_picker_widget/media_picker_widget.dart';
 
 import '../generated/l10n.dart';
 import 'home_page_bloc.dart';
@@ -15,9 +16,33 @@ class PhotoListView extends StatefulWidget {
 }
 
 class _PhotoListViewState extends State<PhotoListView> {
+  late final _homePageBloc = context.read<HomePageBloc>();
   final List<MediaItemView> _mediaItemViews = [];
 
-  void _onAddButtonPressed() {}
+  List<Media> _mediaList = [];
+
+  void _onAddButtonPressed() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return MediaPicker(
+          mediaList: _mediaList,
+          onPick: (selectedList) {
+            setState(() => _mediaList = selectedList);
+            Navigator.pop(context);
+          },
+          onCancel: () => Navigator.pop(context),
+          mediaCount: MediaCount.multiple,
+          mediaType: MediaType.image,
+          decoration: PickerDecoration(
+            actionBarPosition: ActionBarPosition.top,
+            blurStrength: 2,
+            completeText: S.current.next,
+          ),
+        );
+      },
+    ).whenComplete(() => _homePageBloc.add(UploadMedia(_mediaList)));
+  }
 
   @override
   Widget build(BuildContext context) {
