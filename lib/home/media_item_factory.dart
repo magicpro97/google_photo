@@ -3,7 +3,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../google_photo/google_photo.dart';
-import 'media_item_view.dart';
+import 'media_item_view/media_item_view.dart';
 
 @injectable
 class MediaItemFactory {

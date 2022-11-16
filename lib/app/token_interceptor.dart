@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:google_photo/authencation/authentication_storage.dart';
 import 'package:injectable/injectable.dart';
+
+import '../authentication/authentication_storage.dart';
 
 @singleton
 class TokenInterceptor extends Interceptor {

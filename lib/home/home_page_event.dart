@@ -10,10 +10,23 @@ class GetMediaItems extends HomePageEvent {
 }
 
 class UploadMedia extends HomePageEvent {
-  final List<Media> _mediaList;
+  final List<Media> mediaList;
 
-  const UploadMedia(this._mediaList);
+  const UploadMedia(this.mediaList);
 
   @override
-  List<Object?> get props => [_mediaList];
+  List<Object?> get props => [mediaList];
+}
+
+class UpdateUploadStatus extends HomePageEvent {
+  final int current;
+  final int total;
+
+  const UpdateUploadStatus({
+    required this.current,
+    required this.total,
+  });
+
+  @override
+  List<Object?> get props => [current, total];
 }

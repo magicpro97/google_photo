@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 
-import '../authencation/authentication_storage.dart';
+import '../authentication/authentication_storage.dart';
 import '../generated/l10n.dart';
 import '../shared/error.dart';
 

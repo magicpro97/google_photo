@@ -30,3 +30,16 @@ class HomePageMediaItemLoaded extends HomePageState {
   @override
   List<Object?> get props => [mediaItemViews];
 }
+
+class UploadProgress extends HomePageState {
+  final int current;
+  final int total;
+
+  const UploadProgress({
+    required this.current,
+    required this.total,
+  });
+
+  @override
+  List<Object?> get props => [current, total];
+}

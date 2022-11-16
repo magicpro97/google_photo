@@ -26,4 +26,9 @@ abstract class GooglePhotoService {
     @Path('id') String id,
     @Query('updateMask') String updateMask,
   );
+
+  @POST('/mediaItems:batchCreate')
+  Future<CreateMediaItemsResponse> batchCreate(
+    @Body() CreateMediaItemsRequest createMediaItemsRequest,
+  );
 }

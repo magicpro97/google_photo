@@ -26,6 +26,7 @@ class HomePage extends StatefulWidget with AutoRouteWrapper {
 
 class _HomePageState extends State<HomePage> {
   var _currentIndex = 0;
+  var _progress = 0.0;
 
   void _homePageBlocListener(
     BuildContext context,
@@ -33,6 +34,8 @@ class _HomePageState extends State<HomePage> {
   ) {
     if (state is HomePageError) {
       showError(context, state.error);
+    } else if (state is UploadProgress) {
+      _progress = state.current / state.total;
     }
   }
 
@@ -56,11 +59,21 @@ class _HomePageState extends State<HomePage> {
   ) {
     return FullScreenLoadingPage(
       isLoading: state is HomePageLoading ? state.isLoading : false,
-      body: IndexedStack(
-        index: _currentIndex,
+      body: Column(
         children: [
-          const PhotoListView(),
-          Container(),
+          Visibility(
+            visible: _progress > 0 && _progress < 1,
+            child: LinearProgressIndicator(
+              value: _progress,
+            ),
+          ),
+          IndexedStack(
+            index: _currentIndex,
+            children: [
+              const PhotoListView(),
+              Container(),
+            ],
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

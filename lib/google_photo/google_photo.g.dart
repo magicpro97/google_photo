@@ -52,6 +52,62 @@ GetListMediaItemResponse _$GetListMediaItemResponseFromJson(
       json['nextPageToken'] as String,
     );
 
+Map<String, dynamic> _$CreateMediaItemsRequestToJson(
+        CreateMediaItemsRequest instance) =>
+    <String, dynamic>{
+      'newMediaItems': instance.newMediaItems,
+    };
+
+Map<String, dynamic> _$NewMediaItemToJson(NewMediaItem instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('albumId', instance.albumId);
+  val['description'] = instance.description;
+  val['simpleMediaItem'] = instance.simpleMediaItem;
+  val['albumPosition'] = instance.albumPosition;
+  return val;
+}
+
+Map<String, dynamic> _$AlbumPositionToJson(AlbumPosition instance) =>
+    <String, dynamic>{
+      'position': instance.position,
+      'relativeMediaItemId': instance.relativeMediaItemId,
+    };
+
+Map<String, dynamic> _$SimpleMediaItemToJson(SimpleMediaItem instance) =>
+    <String, dynamic>{
+      'fileName': instance.fileName,
+      'uploadToken': instance.uploadToken,
+    };
+
+CreateMediaItemsResponse _$CreateMediaItemsResponseFromJson(
+        Map<String, dynamic> json) =>
+    CreateMediaItemsResponse(
+      (json['newMediaItemResults'] as List<dynamic>)
+          .map((e) => NewMediaItemResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+NewMediaItemResult _$NewMediaItemResultFromJson(Map<String, dynamic> json) =>
+    NewMediaItemResult(
+      json['uploadToken'] as String,
+      Status.fromJson(json['status'] as Map<String, dynamic>),
+      json['mediaItem'] == null
+          ? null
+          : MediaItem.fromJson(json['mediaItem'] as Map<String, dynamic>),
+    );
+
+Status _$StatusFromJson(Map<String, dynamic> json) => Status(
+      json['code'] as int?,
+      json['message'] as String,
+    );
+
 Album _$AlbumFromJson(Map<String, dynamic> json) => Album(
       json['id'] as String,
       json['title'] as String,

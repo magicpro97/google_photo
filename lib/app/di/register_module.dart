@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_uploader/flutter_uploader.dart';
 import 'package:google_photo/app/token_interceptor.dart';
 import 'package:google_photo/google_photo/google_photo_service.dart';
 import 'package:google_photo/shared/constants.dart';
@@ -16,6 +17,7 @@ abstract class RegisterModule {
   @Named('BaseUrl')
   String get baseUrl => Constants.baseUrl;
 
+  @singleton
   Dio getDio(@Named('BaseUrl') String baseUrl,
       TokenInterceptor tokenInterceptor,) =>
       Dio(
@@ -30,6 +32,7 @@ abstract class RegisterModule {
       @Named('BaseUrl') String baseUrl,) =>
       GooglePhotoService(dio, baseUrl: baseUrl);
 
+  @singleton
   GoogleSignIn get googleSignIn =>
       GoogleSignIn(
         scopes: [
@@ -43,6 +46,7 @@ abstract class RegisterModule {
             : DefaultFirebaseOptions.currentPlatform.androidClientId,
       );
 
+  @lazySingleton
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;
 
   @singleton
@@ -52,4 +56,7 @@ abstract class RegisterModule {
           encryptedSharedPreferences: true,
         )
       );
+
+  @lazySingleton
+  FlutterUploader get flutterUploader => FlutterUploader();
 }

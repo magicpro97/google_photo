@@ -71,6 +71,90 @@ class GetListMediaItemResponse extends GooglePhotoPagingResponse {
       _$GetListMediaItemResponseFromJson(json);
 }
 
+@JsonSerializable(createFactory: false)
+class CreateMediaItemsRequest {
+  final List<NewMediaItem> newMediaItems;
+
+  CreateMediaItemsRequest(this.newMediaItems);
+
+  Map<String, dynamic> toJson() => _$CreateMediaItemsRequestToJson(this);
+}
+
+@JsonSerializable(createFactory: false)
+class NewMediaItem {
+  @JsonKey(includeIfNull: false)
+  final String? albumId;
+  final String description;
+  final SimpleMediaItem simpleMediaItem;
+  final AlbumPosition? albumPosition;
+
+  NewMediaItem({
+    required this.description,
+    required this.simpleMediaItem,
+    this.albumId,
+    this.albumPosition,
+  });
+
+  Map<String, dynamic> toJson() => _$NewMediaItemToJson(this);
+}
+
+@JsonSerializable(createFactory: false)
+class AlbumPosition {
+  final String position;
+  final String relativeMediaItemId;
+
+  AlbumPosition(
+    this.position,
+    this.relativeMediaItemId,
+  );
+
+  Map<String, dynamic> toJson() => _$AlbumPositionToJson(this);
+}
+
+@JsonSerializable(createFactory: false)
+class SimpleMediaItem {
+  final String fileName;
+  final String uploadToken;
+
+  SimpleMediaItem(this.fileName, this.uploadToken);
+
+  Map<String, dynamic> toJson() => _$SimpleMediaItemToJson(this);
+}
+
+@JsonSerializable(createToJson: false)
+class CreateMediaItemsResponse {
+  final List<NewMediaItemResult> newMediaItemResults;
+
+  CreateMediaItemsResponse(
+    this.newMediaItemResults,
+  );
+
+  factory CreateMediaItemsResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateMediaItemsResponseFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class NewMediaItemResult {
+  final String uploadToken;
+  final Status status;
+  final MediaItem? mediaItem;
+
+  NewMediaItemResult(this.uploadToken, this.status, this.mediaItem);
+
+  factory NewMediaItemResult.fromJson(Map<String, dynamic> json) =>
+      _$NewMediaItemResultFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class Status {
+  final int? code;
+  final String message;
+
+  Status(this.code, this.message);
+
+  factory Status.fromJson(Map<String, dynamic> json) => _$StatusFromJson(json);
+}
+
 @JsonSerializable()
 class Album {
   final String id;

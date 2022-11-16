@@ -4,7 +4,7 @@ import 'package:media_picker_widget/media_picker_widget.dart';
 
 import '../generated/l10n.dart';
 import 'home_page_bloc.dart';
-import 'media_item_view.dart';
+import 'media_item_view/media_item_view.dart';
 
 class PhotoListView extends StatefulWidget {
   const PhotoListView({
