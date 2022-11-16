@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_uploader/flutter_uploader.dart';
 import 'package:injectable/injectable.dart';
 
@@ -21,22 +23,28 @@ class GooglePhotoUploadService {
     String? tag,
   }) async {
     final token = await _authenticationStorage.getAccessToken();
+    //final file = File(filePath);
 
     return _flutterUploader.enqueue(RawUpload(
-      url: '$_baseUrl/v1/uploads',
+      url: '$_baseUrl/uploads',
       path: filePath,
       headers: {
         'Authorization': 'Bearer $token',
-        'Content-type': 'application/octet-stream',
+        'Content-Type': 'application/octet-stream',
         'X-Goog-Upload-Content-Type': mimeType,
         'X-Goog-Upload-Protocol': 'raw',
+        //'Content-Length': 0.toString(),
+        //'X-Goog-Upload-Protocol': 'resumable',
+        //'X-Goog-Upload-Raw-Size': (await file.length()).toString(),
+        //'X-Goog-Upload-Command': 'start',
       },
       method: UploadMethod.POST,
       tag: tag,
     ));
   }
-  
+
   Stream<UploadTaskResponse> get uploadResponse$ => _flutterUploader.result;
+
   Stream<UploadTaskProgress> get uploadProgress$ => _flutterUploader.progress;
 
   Stream<UploadTaskResponse> uploadResponseById$(String taskId) {

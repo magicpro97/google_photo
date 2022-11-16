@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (4.9.1)
+  - Alamofire (5.2.2)
   - AppAuth (1.6.0):
     - AppAuth/Core (= 1.6.0)
     - AppAuth/ExternalUserAgent (= 1.6.0)
@@ -33,7 +33,7 @@ PODS:
   - flutter_secure_storage (3.3.1):
     - Flutter
   - flutter_uploader (1.2.0):
-    - Alamofire (= 4.9.1)
+    - Alamofire (= 5.2.2)
     - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
@@ -142,7 +142,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/video_thumbnail/ios"
 
 SPEC CHECKSUMS:
-  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
   AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
   Firebase: 444b35a9c568a516666213c2f6cccd10cb12559f
   firebase_auth: 6e24814d3c9976a288da6bb7a49ac79616863b5b
@@ -152,7 +152,7 @@ SPEC CHECKSUMS:
   FirebaseCoreInternal: 96d75228e10fd369564da51bd898414eb0f54df5
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
-  flutter_uploader: 7957e1b9d6516b6cccc37e5ffd6c5a0975a7cc4c
+  flutter_uploader: 2b07c4d41cf1218f25e6d5b8bcfa2d913838e27c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_sign_in_ios: 4f85eb9f937450765c8573bb85fd8cd6a5af675c
   GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a

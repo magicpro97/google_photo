@@ -58,6 +58,7 @@ dependencies:
   media_picker_widget:
     git: https://github.com/magicpro97/media_picker_widget
   mime: ^1.0.2
+  uuid: ^3.0.7
 
 
 dev_dependencies:

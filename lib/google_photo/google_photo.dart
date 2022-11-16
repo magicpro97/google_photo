@@ -116,7 +116,10 @@ class SimpleMediaItem {
   final String fileName;
   final String uploadToken;
 
-  SimpleMediaItem(this.fileName, this.uploadToken);
+  SimpleMediaItem({
+    required this.fileName,
+    required this.uploadToken,
+  });
 
   Map<String, dynamic> toJson() => _$SimpleMediaItemToJson(this);
 }
