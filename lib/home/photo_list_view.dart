@@ -25,6 +25,9 @@ class _PhotoListViewState extends State<PhotoListView> {
   void _homePageBlocListener(BuildContext context, HomePageState state) {
     if (state is UploadProgress) {
       _progress = state.current / state.total;
+      if (_progress == 1) {
+        _mediaList.clear();
+      }
     } else if (state is HomePageMediaItemLoaded) {
       _mediaItemViews.addAll(state.mediaItemViews);
     }

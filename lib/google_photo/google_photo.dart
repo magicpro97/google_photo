@@ -87,6 +87,7 @@ class NewMediaItem {
   @JsonKey(includeIfNull: false)
   final String? description;
   final SimpleMediaItem simpleMediaItem;
+  @JsonKey(includeIfNull: false)
   final AlbumPosition? albumPosition;
 
   NewMediaItem({

@@ -41,7 +41,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     on<UpdateUploadStatus>(_onUpdateUploadStatus);
     on<CreateMediaItem>(_onCreateMediaItem);
 
-    add(GetMediaItems());
+    add(const GetMediaItems());
 
     _uploadSubscription =
         _googlePhotoRepository.uploadMediaItemResponse$.listen((event) {
@@ -76,16 +76,14 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     emit(const HomePageLoading(true));
 
     try {
-      final response = await _googlePhotoRepository.getMediaItem();
+      final response = await _googlePhotoRepository.getMediaItem(
+        nextPageToken: event.nextPageToken,
+      );
 
       emit(HomePageMediaItemLoaded(await _mediaItemFactory
           .generateMediaItemViews(response.mediaItems ?? [])));
     } catch (e) {
-      if (e is DioError && e.response?.statusCode == 401) {
-        emit(HomePageError(UnauthorizedError('')));
-      } else {
-        emit(HomePageError(AppError(S.current.something_happened)));
-      }
+      _onError(e, emit);
     } finally {
       emit(const HomePageLoading(false));
     }
@@ -126,21 +124,33 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     CreateMediaItem event,
     Emitter<HomePageState> emit,
   ) async {
-    await _googlePhotoRepository.createMediaItems([
-      NewMediaItem(
-        description: '',
-        simpleMediaItem: SimpleMediaItem(
-          fileName: _uuid.v1(),
-          uploadToken: event.uploadToken,
-        ),
-      )
-    ]);
+    try {
+      await _googlePhotoRepository.createMediaItems([
+        NewMediaItem(
+          description: '',
+          simpleMediaItem: SimpleMediaItem(
+            fileName: _uuid.v1(),
+            uploadToken: event.uploadToken,
+          ),
+        )
+      ]);
 
-    add(UpdateUploadStatus(
-      current: _current,
-      total: _taskIdSet.length,
-    ));
+      add(UpdateUploadStatus(
+        current: _current,
+        total: _taskIdSet.length,
+      ));
 
-    add(GetMediaItems());
+      add(const GetMediaItems());
+    } catch (e) {
+      _onError(e, emit);
+    }
+  }
+
+  void _onError(Object e, Emitter<HomePageState> emit) {
+    if (e is DioError && e.response?.statusCode == 401) {
+      emit(HomePageError(UnauthorizedError('')));
+    } else {
+      emit(HomePageError(AppError(S.current.something_happened)));
+    }
   }
 }

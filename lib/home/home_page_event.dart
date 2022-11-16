@@ -5,6 +5,10 @@ abstract class HomePageEvent extends Equatable {
 }
 
 class GetMediaItems extends HomePageEvent {
+  final String? nextPageToken;
+
+  const GetMediaItems({this.nextPageToken});
+
   @override
   List<Object?> get props => [];
 }

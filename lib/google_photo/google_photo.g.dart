@@ -70,7 +70,7 @@ Map<String, dynamic> _$NewMediaItemToJson(NewMediaItem instance) {
   writeNotNull('albumId', instance.albumId);
   writeNotNull('description', instance.description);
   val['simpleMediaItem'] = instance.simpleMediaItem;
-  val['albumPosition'] = instance.albumPosition;
+  writeNotNull('albumPosition', instance.albumPosition);
   return val;
 }
 
