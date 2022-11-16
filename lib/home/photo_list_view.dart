@@ -81,6 +81,8 @@ class _PhotoListViewState extends State<PhotoListView> {
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
+                crossAxisSpacing: 1,
+                mainAxisSpacing: 1,
               ),
               itemBuilder: (_, index) => _mediaItemViews[index],
               itemCount: _mediaItemViews.length,

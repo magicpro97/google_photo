@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -15,36 +13,19 @@ class MediaItemView extends StatelessWidget {
     Key? key,
     required this.mediaItem,
     required this.type,
-    this.thumbnailFile,
   }) : super(key: key);
 
   final MediaItem mediaItem;
   final ViewType type;
-  final String? thumbnailFile;
 
   @override
   Widget build(BuildContext context) {
     return Hero(
       tag: mediaItem.id,
-      child: Column(
-        children: [
-          Visibility(
-            visible: type == ViewType.image,
-            child: CachedNetworkImage(
-              imageUrl: mediaItem.productUrl,
-              fit: BoxFit.cover,
-              errorWidget: (_, __, ___) => const ErrorImageView(),
-            ),
-          ),
-          Visibility(
-            visible: type == ViewType.video && thumbnailFile != null,
-            child: Image.file(
-              File(thumbnailFile!),
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const ErrorImageView(),
-            ),
-          ),
-        ],
+      child: CachedNetworkImage(
+        imageUrl: mediaItem.baseUrl,
+        fit: BoxFit.cover,
+        errorWidget: (_, __, ___) => const ErrorImageView(),
       ),
     );
   }

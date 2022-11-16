@@ -68,7 +68,7 @@ Map<String, dynamic> _$NewMediaItemToJson(NewMediaItem instance) {
   }
 
   writeNotNull('albumId', instance.albumId);
-  val['description'] = instance.description;
+  writeNotNull('description', instance.description);
   val['simpleMediaItem'] = instance.simpleMediaItem;
   val['albumPosition'] = instance.albumPosition;
   return val;
@@ -163,13 +163,16 @@ Map<String, dynamic> _$SharedAlbumOptionsToJson(SharedAlbumOptions instance) =>
 
 MediaItem _$MediaItemFromJson(Map<String, dynamic> json) => MediaItem(
       json['id'] as String,
-      json['description'] as String,
+      json['description'] as String?,
       json['productUrl'] as String,
       json['baseUrl'] as String,
       json['mimeType'] as String,
       MediaMetadata.fromJson(json['mediaMetadata'] as Map<String, dynamic>),
-      ContributorInfo.fromJson(json['contributorInfo'] as Map<String, dynamic>),
-      json['fileName'] as String,
+      json['contributorInfo'] == null
+          ? null
+          : ContributorInfo.fromJson(
+              json['contributorInfo'] as Map<String, dynamic>),
+      json['fileName'] as String?,
     );
 
 Map<String, dynamic> _$MediaItemToJson(MediaItem instance) => <String, dynamic>{
@@ -206,12 +209,12 @@ Map<String, dynamic> _$MediaMetadataToJson(MediaMetadata instance) =>
     };
 
 Photo _$PhotoFromJson(Map<String, dynamic> json) => Photo(
-      json['cameraMake'] as String,
-      json['cameraModel'] as String,
-      (json['focalLength'] as num).toDouble(),
-      (json['apertureFNumber'] as num).toDouble(),
-      json['isoEquivalent'] as int,
-      json['exposureTime'] as String,
+      json['cameraMake'] as String?,
+      json['cameraModel'] as String?,
+      (json['focalLength'] as num?)?.toDouble(),
+      (json['apertureFNumber'] as num?)?.toDouble(),
+      json['isoEquivalent'] as int?,
+      json['exposureTime'] as String?,
     );
 
 Map<String, dynamic> _$PhotoToJson(Photo instance) => <String, dynamic>{

@@ -84,12 +84,13 @@ class CreateMediaItemsRequest {
 class NewMediaItem {
   @JsonKey(includeIfNull: false)
   final String? albumId;
-  final String description;
+  @JsonKey(includeIfNull: false)
+  final String? description;
   final SimpleMediaItem simpleMediaItem;
   final AlbumPosition? albumPosition;
 
   NewMediaItem({
-    required this.description,
+    this.description,
     required this.simpleMediaItem,
     this.albumId,
     this.albumPosition,
@@ -228,13 +229,13 @@ class SharedAlbumOptions {
 @JsonSerializable()
 class MediaItem {
   final String id;
-  final String description;
+  final String? description;
   final String productUrl;
   final String baseUrl;
   final String mimeType;
   final MediaMetadata mediaMetadata;
-  final ContributorInfo contributorInfo;
-  final String fileName;
+  final ContributorInfo? contributorInfo;
+  final String? fileName;
 
   MediaItem(
     this.id,
@@ -277,12 +278,12 @@ class MediaMetadata {
 
 @JsonSerializable()
 class Photo {
-  final String cameraMake;
-  final String cameraModel;
-  final double focalLength;
-  final double apertureFNumber;
-  final int isoEquivalent;
-  final String exposureTime;
+  final String? cameraMake;
+  final String? cameraModel;
+  final double? focalLength;
+  final double? apertureFNumber;
+  final int? isoEquivalent;
+  final String? exposureTime;
 
   Photo(
     this.cameraMake,
