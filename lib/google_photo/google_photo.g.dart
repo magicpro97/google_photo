@@ -21,6 +21,22 @@ Map<String, dynamic> _$GooglePhotoPagingRequestToJson(
   return val;
 }
 
+Map<String, dynamic> _$SearchMediaItemRequestToJson(
+    SearchMediaItemRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('pageSize', instance.pageSize);
+  writeNotNull('pageToken', instance.pageToken);
+  val['albumId'] = instance.albumId;
+  return val;
+}
+
 GetListAlbumResponse _$GetListAlbumResponseFromJson(
         Map<String, dynamic> json) =>
     GetListAlbumResponse(

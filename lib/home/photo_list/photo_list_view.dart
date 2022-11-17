@@ -15,10 +15,10 @@ import 'photo_list_bloc.dart';
 class PhotoListView extends StatefulWidget {
   const PhotoListView({
     Key? key,
-    @pathParam this.id,
+    @pathParam this.albumId,
   }) : super(key: key);
 
-  final String? id;
+  final String? albumId;
 
   @override
   State<PhotoListView> createState() => _PhotoListViewState();
@@ -37,7 +37,10 @@ class _PhotoListViewState extends State<PhotoListView> {
   String? _nextPageToken;
 
   void _onRefresh() {
-    _photoListBloc.add(const GetMediaItems(loadType: LoadType.refresh));
+    _photoListBloc.add(GetMediaItems(
+      loadType: LoadType.refresh,
+      albumId: widget.albumId,
+    ));
   }
 
   void _onLoadMore() {
@@ -45,6 +48,7 @@ class _PhotoListViewState extends State<PhotoListView> {
       _photoListBloc.add(GetMediaItems(
         nextPageToken: _nextPageToken,
         loadType: LoadType.loadMore,
+        albumId: widget.albumId,
       ));
     } else {
       _refreshController.loadNoData();

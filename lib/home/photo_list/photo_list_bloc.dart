@@ -42,21 +42,21 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
 
     _uploadSubscription =
         _googlePhotoRepository.uploadMediaItemResponse$.listen((event) {
-          if (_taskIdSet[event.taskId] == UploadStatus.loading) {
-            final statusCode = event.statusCode;
-            if (statusCode != null && statusCode >= 200 && statusCode < 400) {
-              _taskIdSet[event.taskId] = UploadStatus.done;
-              add(CreateMediaItem(uploadToken: event.response!));
-            } else {
-              _taskIdSet[event.taskId] = UploadStatus.error;
-            }
-          }
-        });
+      if (_taskIdSet[event.taskId] == UploadStatus.loading) {
+        final statusCode = event.statusCode;
+        if (statusCode != null && statusCode >= 200 && statusCode < 400) {
+          _taskIdSet[event.taskId] = UploadStatus.done;
+          add(CreateMediaItem(uploadToken: event.response!));
+        } else {
+          _taskIdSet[event.taskId] = UploadStatus.error;
+        }
+      }
+    });
   }
 
   int get _current => _taskIdSet.entries.fold(
       0,
-          (previousValue, element) => element.value != UploadStatus.loading
+      (previousValue, element) => element.value != UploadStatus.loading
           ? previousValue++
           : previousValue);
 
@@ -71,16 +71,26 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
   }
 
   FutureOr<void> _onGetMediaItems(
-      GetMediaItems event,
-      Emitter<PhotoListState> emit,
-      ) async {
+    GetMediaItems event,
+    Emitter<PhotoListState> emit,
+  ) async {
     final loadType = event.loadType;
+    final albumId = event.albumId;
+    final nextPageToken = event.nextPageToken;
     emit(PhotoListLoading(isLoading: true, loadType: loadType));
 
     try {
-      final response = await _googlePhotoRepository.getMediaItems(
-        pageToken: event.nextPageToken,
-      );
+      late final GetListMediaItemResponse response;
+      if (albumId == null) {
+        response = await _googlePhotoRepository.getMediaItems(
+          pageToken: nextPageToken,
+        );
+      } else {
+        response = await _googlePhotoRepository.searchMediaItems(
+          albumId: albumId,
+          pageToken: nextPageToken,
+        );
+      }
 
       emit(PhotoListMediaItemLoaded(
         mediaItemViews: await _mediaItemFactory.generateMediaItemViews(
@@ -103,18 +113,18 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
   }
 
   FutureOr<void> _onUploadMedia(
-      UploadMedia event,
-      Emitter<PhotoListState> emit,
-      ) async {
+    UploadMedia event,
+    Emitter<PhotoListState> emit,
+  ) async {
     final mediaList = event.mediaList;
     if (mediaList.isNotEmpty) {
       final tasks = mediaList
           .where((e) => e.file != null)
           .where((e) => e.file!.path.fileName.mineType != null)
           .map((e) => _googlePhotoRepository.uploadMediaItems(
-        mimeType: e.file!.path.fileName.mineType!,
-        filePath: e.file!.path,
-      ))
+                mimeType: e.file!.path.fileName.mineType!,
+                filePath: e.file!.path,
+              ))
           .toList(growable: false);
 
       final taskIdList = await Future.wait(tasks);
@@ -127,16 +137,16 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
   }
 
   FutureOr<void> _onUpdateUploadStatus(
-      UpdateUploadStatus event,
-      Emitter<PhotoListState> emit,
-      ) {
+    UpdateUploadStatus event,
+    Emitter<PhotoListState> emit,
+  ) {
     emit(UploadProgress(current: event.current, total: event.total));
   }
 
   FutureOr<void> _onCreateMediaItem(
-      CreateMediaItem event,
-      Emitter<PhotoListState> emit,
-      ) async {
+    CreateMediaItem event,
+    Emitter<PhotoListState> emit,
+  ) async {
     try {
       final uploadToken = event.uploadToken;
       if (uploadToken == null) {

@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_photo/home/album_list/album_item_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../app/router/app_router.dart';
 import '../../generated/l10n.dart';
 import '../../google_photo/google_photo.dart';
 import '../home_page_bloc.dart';
@@ -71,10 +73,12 @@ class _AlbumListViewState extends State<AlbumListView> {
     }
   }
 
-  void _onAddButtonPressed() {}
+  void _onAddButtonPressed() {
+
+  }
 
   void _onAlbumItemPressed(Album album) {
-    //context.pushRoute(AlbumRoute());
+    context.pushRoute(AlbumRoute(id: album.id));
   }
 
   @override

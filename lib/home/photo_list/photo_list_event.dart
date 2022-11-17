@@ -15,15 +15,21 @@ class UploadMedia extends PhotoListEvent {
 
 class GetMediaItems extends PhotoListEvent {
   final LoadType loadType;
+  final String? albumId;
   final String? nextPageToken;
 
   const GetMediaItems({
     this.nextPageToken,
     this.loadType = LoadType.refresh,
+    this.albumId,
   });
 
   @override
-  List<Object?> get props => [nextPageToken, loadType];
+  List<Object?> get props => [
+        nextPageToken,
+        loadType,
+        albumId,
+      ];
 }
 
 class UpdateUploadStatus extends PhotoListEvent {

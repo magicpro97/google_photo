@@ -35,4 +35,9 @@ abstract class GooglePhotoService {
   Future<CreateMediaItemsResponse> batchCreate(
     @Body() CreateMediaItemsRequest createMediaItemsRequest,
   );
+
+  @POST('/mediaItems:search')
+  Future<GetListMediaItemResponse> searchMediaItems(
+    @Body() SearchMediaItemRequest searchMediaItemRequest,
+  );
 }

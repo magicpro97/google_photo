@@ -24,6 +24,16 @@ class GooglePhotoRepository {
     );
   }
 
+  Future<GetListMediaItemResponse> searchMediaItems({
+    required String albumId,
+    String? pageToken,
+  }) {
+    return _googlePhotoService.searchMediaItems(SearchMediaItemRequest(
+      albumId: albumId,
+      pageToken: pageToken,
+    ));
+  }
+
   Future<GetListAlbumResponse> getAlbums({
     String? pageToken,
   }) {

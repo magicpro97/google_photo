@@ -23,6 +23,20 @@ class GooglePhotoPagingRequest {
   Map<String, dynamic> toJson() => _$GooglePhotoPagingRequestToJson(this);
 }
 
+@JsonSerializable(createFactory: false)
+class SearchMediaItemRequest extends GooglePhotoPagingRequest {
+  final String albumId;
+
+  SearchMediaItemRequest({
+    required this.albumId,
+    super.pageSize,
+    super.pageToken,
+  });
+
+  @override
+  Map<String, dynamic> toJson() => _$SearchMediaItemRequestToJson(this);
+}
+
 @JsonSerializable(createToJson: false)
 class GetListAlbumResponse extends GooglePhotoPagingResponse {
   final List<Album>? albums;

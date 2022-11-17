@@ -41,6 +41,17 @@ class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    AlbumRoute.name: (routeData) {
+      final args = routeData.argsAs<AlbumRouteArgs>();
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: WrappedRoute(
+            child: AlbumPage(
+          key: args.key,
+          id: args.id,
+        )),
+      );
+    },
   };
 
   @override
@@ -62,6 +73,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           PhotoDetailRoute.name,
           path: '/photos',
+        ),
+        RouteConfig(
+          AlbumRoute.name,
+          path: '/albums/:id',
         ),
       ];
 }
@@ -126,5 +141,39 @@ class PhotoDetailRouteArgs {
   @override
   String toString() {
     return 'PhotoDetailRouteArgs{key: $key, mediaItems: $mediaItems, initialIndex: $initialIndex}';
+  }
+}
+
+/// generated route for
+/// [AlbumPage]
+class AlbumRoute extends PageRouteInfo<AlbumRouteArgs> {
+  AlbumRoute({
+    Key? key,
+    required String id,
+  }) : super(
+          AlbumRoute.name,
+          path: '/albums/:id',
+          args: AlbumRouteArgs(
+            key: key,
+            id: id,
+          ),
+        );
+
+  static const String name = 'AlbumRoute';
+}
+
+class AlbumRouteArgs {
+  const AlbumRouteArgs({
+    this.key,
+    required this.id,
+  });
+
+  final Key? key;
+
+  final String id;
+
+  @override
+  String toString() {
+    return 'AlbumRouteArgs{key: $key, id: $id}';
   }
 }
