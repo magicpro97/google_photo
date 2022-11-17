@@ -232,7 +232,7 @@ class MediaItem {
   final String id;
   final String? description;
   final String productUrl;
-  final String baseUrl;
+  final String? baseUrl;
   final String mimeType;
   final MediaMetadata mediaMetadata;
   final ContributorInfo? contributorInfo;

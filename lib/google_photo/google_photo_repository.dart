@@ -64,4 +64,8 @@ class GooglePhotoRepository {
 
   Stream<UploadTaskProgress> get uploadMediaItemProgress$ =>
       _googlePhotoUploadService.uploadProgress$;
+
+  Future<void> cancelUploadTask(String taskId) {
+    return _googlePhotoUploadService.cancel(taskId);
+  }
 }

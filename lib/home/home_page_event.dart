@@ -53,9 +53,9 @@ class UpdateUploadStatus extends HomePageEvent {
 }
 
 class CreateMediaItem extends HomePageEvent {
-  final String uploadToken;
+  final String? uploadToken;
 
-  const CreateMediaItem(this.uploadToken);
+  const CreateMediaItem({this.uploadToken});
 
   @override
   List<Object?> get props => [uploadToken];

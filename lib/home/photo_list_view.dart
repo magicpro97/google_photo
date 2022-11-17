@@ -1,8 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_photo/app/router/app_router.dart';
 import 'package:media_picker_widget/media_picker_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import '../generated/l10n.dart';
 import '../google_photo/google_photo.dart';
@@ -22,6 +23,7 @@ class PhotoListView extends StatefulWidget {
 class _PhotoListViewState extends State<PhotoListView> {
   late final _homePageBloc = context.read<HomePageBloc>();
   final List<MediaItemView> _mediaItemViews = [];
+  final List<MediaItem> _mediaItems = [];
   final _refreshController = RefreshController(
     initialRefresh: true,
   );
@@ -78,6 +80,9 @@ class _PhotoListViewState extends State<PhotoListView> {
         }
       }
       _mediaItemViews.addAll(state.mediaItemViews);
+      _mediaItems.addAll(state.mediaItems);
+    } else if (state is MediaItemCreated) {
+      _refreshController.requestRefresh();
     }
   }
 
@@ -85,13 +90,20 @@ class _PhotoListViewState extends State<PhotoListView> {
     showMediaPicker(
       context: context,
       selectedMediaList: _mediaList,
-    )
-        .then((value) => _mediaList = value ?? _mediaList)
-        .whenComplete(() => _homePageBloc.add(UploadMedia(_mediaList)));
+      onPicking: (selectedMedias) => _mediaList = selectedMedias,
+    ).then((value) {
+      if (value != null) {
+        _homePageBloc.add(UploadMedia(_mediaList));
+        _mediaList = [];
+      }
+    });
   }
 
   void _onMediaItemPressed(MediaItem mediaItem) {
-    launchUrlString(mediaItem.productUrl);
+    context.pushRoute(PhotoDetailRoute(
+      mediaItems: _mediaItems,
+      initialIndex: _mediaItems.indexOf(mediaItem),
+    ));
   }
 
   @override

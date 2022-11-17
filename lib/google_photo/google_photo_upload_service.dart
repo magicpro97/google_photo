@@ -52,4 +52,12 @@ class GooglePhotoUploadService {
   Stream<UploadTaskProgress> uploadProgressById$(String taskId) {
     return _flutterUploader.progress.where((event) => event.taskId == taskId);
   }
+
+  Future<void> clearAll() {
+    return _flutterUploader.cancelAll();
+  }
+
+  Future<void> cancel(String taskId) {
+    return _flutterUploader.cancel(taskId: taskId);
+  }
 }

@@ -23,23 +23,23 @@ class MediaItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Hero(
+    return Hero(
         tag: mediaItem.id,
-        child: InkWell(
+        child: GestureDetector(
           onTap: () => onMediaItemPressed(mediaItem),
-          child: Card(
-            elevation: 10,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(4.0 ),
-              child: CachedNetworkImage(
-                imageUrl: mediaItem.baseUrl,
-                fit: BoxFit.cover,
-                errorWidget: (_, __, ___) => const ErrorImageView(),
+          child: Material(
+            child: Card(
+              elevation: 10,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4.0),
+                child: CachedNetworkImage(
+                  imageUrl: mediaItem.baseUrl ?? mediaItem.productUrl,
+                  fit: BoxFit.cover,
+                  errorWidget: (_, __, ___) => const ErrorImageView(),
+                ),
               ),
             ),
           ),
-        ),
       ),
     );
   }

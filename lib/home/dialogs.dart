@@ -9,14 +9,16 @@ Future<List<Media>?> showMediaPicker({
   MediaCount mediaCount = MediaCount.multiple,
   MediaType mediaType = MediaType.all,
   ActionBarPosition actionBarPosition = ActionBarPosition.top,
+  void Function(List<Media> media)? onPicking,
 }) {
   return showModalBottomSheet<List<Media>>(
     context: context,
     builder: (context) {
       return MediaPicker(
         mediaList: selectedMediaList,
-        onPick: (selectedList) => Navigator.pop(context, selectedList),
+        onPicked: (selectedList) => Navigator.pop(context, selectedList),
         onCancel: () => Navigator.pop(context),
+        onPicking: onPicking,
         mediaCount: mediaCount,
         mediaType: mediaType,
         decoration: PickerDecoration(

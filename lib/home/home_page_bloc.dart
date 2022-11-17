@@ -49,7 +49,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
         final statusCode = event.statusCode;
         if (statusCode != null && statusCode >= 200 && statusCode < 400) {
           _taskIdSet[event.taskId] = UploadStatus.done;
-          add(CreateMediaItem(event.response!));
+          add(CreateMediaItem(uploadToken: event.response!));
         } else {
           _taskIdSet[event.taskId] = UploadStatus.error;
         }
@@ -94,6 +94,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
           response.mediaItems ?? [],
           onMediaItemPressed,
         ),
+        mediaItems: response.mediaItems ?? [],
         loadType: loadType,
         nextPageToken: response.nextPageToken,
       ));
@@ -113,23 +114,23 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     Emitter<HomePageState> emit,
   ) async {
     final mediaList = event.mediaList;
+    if (mediaList.isNotEmpty) {
+      final tasks = mediaList
+          .where((e) => e.file != null)
+          .where((e) => e.file!.path.fileName.mineType != null)
+          .map((e) => _googlePhotoRepository.uploadMediaItems(
+                mimeType: e.file!.path.fileName.mineType!,
+                filePath: e.file!.path,
+              ))
+          .toList(growable: false);
 
-    final tasks = mediaList
-        .where((e) => e.file != null)
-        .where((e) => e.file!.path.fileName.mineType != null)
-        .map((e) => _googlePhotoRepository.uploadMediaItems(
-              mimeType: e.file!.path.fileName.mineType!,
-              filePath: e.file!.path,
-            ))
-        .toList(growable: false);
-
-    final taskIdList = await Future.wait(tasks);
-    _taskIdSet.addAll(taskIdList.fold({}, (previousValue, element) {
-      previousValue[element] = UploadStatus.loading;
-      return previousValue;
-    }));
-
-    add(UpdateUploadStatus(current: 0, total: _taskIdSet.length));
+      final taskIdList = await Future.wait(tasks);
+      _taskIdSet.addAll(taskIdList.fold({}, (previousValue, element) {
+        previousValue[element] = UploadStatus.loading;
+        return previousValue;
+      }));
+      add(UpdateUploadStatus(current: 0, total: _taskIdSet.length));
+    }
   }
 
   FutureOr<void> _onUpdateUploadStatus(
@@ -144,11 +145,15 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     Emitter<HomePageState> emit,
   ) async {
     try {
+      final uploadToken = event.uploadToken;
+      if (uploadToken == null) {
+        throw Exception();
+      }
+
       await _googlePhotoRepository.createMediaItems([
         NewMediaItem(
-          description: '',
           simpleMediaItem: SimpleMediaItem(
-            uploadToken: event.uploadToken,
+            uploadToken: uploadToken,
           ),
         )
       ]);
@@ -158,7 +163,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
         total: _taskIdSet.length,
       ));
 
-      add(const GetMediaItems());
+      emit(MediaItemCreated());
     } catch (e) {
       _onError(e, emit);
     }

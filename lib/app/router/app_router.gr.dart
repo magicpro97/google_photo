@@ -30,9 +30,27 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     PhotoDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<PhotoDetailRouteArgs>(
+          orElse: () => const PhotoDetailRouteArgs());
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const PhotoDetailPage(),
+        child: PhotoDetailPage(
+          key: args.key,
+          mediaItems: args.mediaItems,
+          initialIndex: args.initialIndex,
+        ),
+      );
+    },
+    AlbumRoute.name: (routeData) {
+      final args = routeData.argsAs<AlbumRouteArgs>(
+          orElse: () => const AlbumRouteArgs());
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: PhotoDetailPage(
+          key: args.key,
+          mediaItems: args.mediaItems,
+          initialIndex: args.initialIndex,
+        ),
       );
     },
   };
@@ -40,19 +58,26 @@ class _$AppRouter extends RootStackRouter {
   @override
   List<RouteConfig> get routes => [
         RouteConfig(
-          LoginRoute.name,
+          '/#redirect',
           path: '/',
+          redirectTo: '/login',
+          fullMatch: true,
+        ),
+        RouteConfig(
+          LoginRoute.name,
+          path: '/login',
         ),
         RouteConfig(
           HomeRoute.name,
-          path: '/home-page',
-          children: [
-            RouteConfig(
-              PhotoDetailRoute.name,
-              path: 'photo/:id',
-              parent: HomeRoute.name,
-            )
-          ],
+          path: '',
+        ),
+        RouteConfig(
+          PhotoDetailRoute.name,
+          path: '/photos',
+        ),
+        RouteConfig(
+          AlbumRoute.name,
+          path: '/album/:id',
         ),
       ];
 }
@@ -63,7 +88,7 @@ class LoginRoute extends PageRouteInfo<void> {
   const LoginRoute()
       : super(
           LoginRoute.name,
-          path: '/',
+          path: '/login',
         );
 
   static const String name = 'LoginRoute';
@@ -72,11 +97,10 @@ class LoginRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [HomePage]
 class HomeRoute extends PageRouteInfo<void> {
-  const HomeRoute({List<PageRouteInfo>? children})
+  const HomeRoute()
       : super(
           HomeRoute.name,
-          path: '/home-page',
-          initialChildren: children,
+          path: '',
         );
 
   static const String name = 'HomeRoute';
@@ -84,12 +108,78 @@ class HomeRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [PhotoDetailPage]
-class PhotoDetailRoute extends PageRouteInfo<void> {
-  const PhotoDetailRoute()
-      : super(
+class PhotoDetailRoute extends PageRouteInfo<PhotoDetailRouteArgs> {
+  PhotoDetailRoute({
+    Key? key,
+    List<MediaItem> mediaItems = const [],
+    int? initialIndex,
+  }) : super(
           PhotoDetailRoute.name,
-          path: 'photo/:id',
+          path: '/photos',
+          args: PhotoDetailRouteArgs(
+            key: key,
+            mediaItems: mediaItems,
+            initialIndex: initialIndex,
+          ),
         );
 
   static const String name = 'PhotoDetailRoute';
+}
+
+class PhotoDetailRouteArgs {
+  const PhotoDetailRouteArgs({
+    this.key,
+    this.mediaItems = const [],
+    this.initialIndex,
+  });
+
+  final Key? key;
+
+  final List<MediaItem> mediaItems;
+
+  final int? initialIndex;
+
+  @override
+  String toString() {
+    return 'PhotoDetailRouteArgs{key: $key, mediaItems: $mediaItems, initialIndex: $initialIndex}';
+  }
+}
+
+/// generated route for
+/// [PhotoDetailPage]
+class AlbumRoute extends PageRouteInfo<AlbumRouteArgs> {
+  AlbumRoute({
+    Key? key,
+    List<MediaItem> mediaItems = const [],
+    int? initialIndex,
+  }) : super(
+          AlbumRoute.name,
+          path: '/album/:id',
+          args: AlbumRouteArgs(
+            key: key,
+            mediaItems: mediaItems,
+            initialIndex: initialIndex,
+          ),
+        );
+
+  static const String name = 'AlbumRoute';
+}
+
+class AlbumRouteArgs {
+  const AlbumRouteArgs({
+    this.key,
+    this.mediaItems = const [],
+    this.initialIndex,
+  });
+
+  final Key? key;
+
+  final List<MediaItem> mediaItems;
+
+  final int? initialIndex;
+
+  @override
+  String toString() {
+    return 'AlbumRouteArgs{key: $key, mediaItems: $mediaItems, initialIndex: $initialIndex}';
+  }
 }

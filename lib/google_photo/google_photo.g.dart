@@ -167,7 +167,7 @@ MediaItem _$MediaItemFromJson(Map<String, dynamic> json) => MediaItem(
       json['id'] as String,
       json['description'] as String?,
       json['productUrl'] as String,
-      json['baseUrl'] as String,
+      json['baseUrl'] as String?,
       json['mimeType'] as String,
       MediaMetadata.fromJson(json['mediaMetadata'] as Map<String, dynamic>),
       json['contributorInfo'] == null

@@ -33,12 +33,14 @@ enum LoadType {
 
 class HomePageMediaItemLoaded extends HomePageState {
   final List<MediaItemView> mediaItemViews;
+  final List<MediaItem> mediaItems;
   final LoadType loadType;
   final String? nextPageToken;
   final bool hasError;
 
   const HomePageMediaItemLoaded({
     this.mediaItemViews = const [],
+    this.mediaItems = const [],
     this.loadType = LoadType.refresh,
     this.nextPageToken,
     this.hasError = false,
@@ -47,6 +49,7 @@ class HomePageMediaItemLoaded extends HomePageState {
   @override
   List<Object?> get props => [
         mediaItemViews,
+        mediaItems,
         loadType,
         nextPageToken,
         hasError,
@@ -86,4 +89,9 @@ class UploadProgress extends HomePageState {
 
   @override
   List<Object?> get props => [current, total];
+}
+
+class MediaItemCreated extends HomePageState {
+  @override
+  List<Object?> get props => [];
 }

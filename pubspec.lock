@@ -642,7 +642,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a7c1a6ba1051d9daf0b091501cf88431becafed8
+      resolved-ref: "631abbd27138ea71c0474a6402828f0ba63738af"
       url: "https://github.com/magicpro97/media_picker_widget"
     source: git
     version: "0.0.9"
@@ -758,6 +758,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0"
+  photo_view:
+    dependency: "direct main"
+    description:
+      name: photo_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.14.0"
   platform:
     dependency: transitive
     description:
