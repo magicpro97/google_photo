@@ -55,7 +55,6 @@ class _HomePageState extends State<HomePage> {
     HomePageState state,
   ) {
     return FullScreenLoadingPage(
-      isLoading: state is HomePageLoading ? state.isLoading : false,
       body: IndexedStack(
         index: _currentIndex,
         children: [

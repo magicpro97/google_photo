@@ -6,11 +6,15 @@ abstract class HomePageState extends Equatable {
 
 class HomePageLoading extends HomePageState {
   final bool isLoading;
+  final LoadType loadType;
 
-  const HomePageLoading(this.isLoading);
+  const HomePageLoading({
+    this.isLoading = false,
+    this.loadType = LoadType.refresh,
+  });
 
   @override
-  List<Object?> get props => [isLoading];
+  List<Object?> get props => [isLoading, loadType];
 }
 
 class HomePageError extends HomePageState {
@@ -22,13 +26,31 @@ class HomePageError extends HomePageState {
   List<Object?> get props => [error];
 }
 
+enum LoadType {
+  refresh,
+  loadMore;
+}
+
 class HomePageMediaItemLoaded extends HomePageState {
   final List<MediaItemView> mediaItemViews;
+  final LoadType loadType;
+  final String? nextPageToken;
+  final bool hasError;
 
-  const HomePageMediaItemLoaded(this.mediaItemViews);
+  const HomePageMediaItemLoaded({
+    this.mediaItemViews = const [],
+    this.loadType = LoadType.refresh,
+    this.nextPageToken,
+    this.hasError = false,
+  });
 
   @override
-  List<Object?> get props => [mediaItemViews];
+  List<Object?> get props => [
+        mediaItemViews,
+        loadType,
+        nextPageToken,
+        hasError,
+      ];
 }
 
 class UploadProgress extends HomePageState {

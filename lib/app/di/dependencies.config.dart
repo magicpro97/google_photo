@@ -76,7 +76,6 @@ _i1.GetIt $initGetIt(
   gh.factory<_i16.HomePageBloc>(() => _i16.HomePageBloc(
         get<_i15.GooglePhotoRepository>(),
         get<_i7.MediaItemFactory>(),
-        get<_i8.Uuid>(),
       ));
   return get;
 }

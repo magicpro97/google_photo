@@ -13,19 +13,26 @@ class MediaItemView extends StatelessWidget {
     Key? key,
     required this.mediaItem,
     required this.type,
+    required this.onMediaItemPressed,
   }) : super(key: key);
 
   final MediaItem mediaItem;
   final ViewType type;
+  final void Function(MediaItem) onMediaItemPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: mediaItem.id,
-      child: CachedNetworkImage(
-        imageUrl: mediaItem.baseUrl,
-        fit: BoxFit.cover,
-        errorWidget: (_, __, ___) => const ErrorImageView(),
+    return Material(
+      child: Hero(
+        tag: mediaItem.id,
+        child: InkWell(
+          onTap: () => onMediaItemPressed(mediaItem),
+          child: CachedNetworkImage(
+            imageUrl: mediaItem.baseUrl,
+            fit: BoxFit.cover,
+            errorWidget: (_, __, ___) => const ErrorImageView(),
+          ),
+        ),
       ),
     );
   }

@@ -16,11 +16,11 @@ class GooglePhotoRepository {
   );
 
   Future<GetListMediaItemResponse> getMediaItem({
-    String? nextPageToken,
+    String? pageToken,
   }) {
     return _googlePhotoService.getMediaItems(
       GooglePhotoPagingRequest(
-        pageToken: nextPageToken,
+        pageToken: pageToken,
       ),
     );
   }

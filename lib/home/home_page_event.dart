@@ -5,12 +5,16 @@ abstract class HomePageEvent extends Equatable {
 }
 
 class GetMediaItems extends HomePageEvent {
+  final LoadType loadType;
   final String? nextPageToken;
 
-  const GetMediaItems({this.nextPageToken});
+  const GetMediaItems({
+    this.nextPageToken,
+    this.loadType = LoadType.refresh,
+  });
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [nextPageToken, loadType];
 }
 
 class UploadMedia extends HomePageEvent {

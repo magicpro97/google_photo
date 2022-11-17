@@ -115,11 +115,11 @@ class AlbumPosition {
 
 @JsonSerializable(createFactory: false)
 class SimpleMediaItem {
-  final String fileName;
+  final String? fileName;
   final String uploadToken;
 
   SimpleMediaItem({
-    required this.fileName,
+    this.fileName,
     required this.uploadToken,
   });
 

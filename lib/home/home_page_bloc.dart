@@ -8,7 +8,6 @@ import 'package:google_photo/google_photo/google_photo.dart';
 import 'package:google_photo/shared/extensions.dart';
 import 'package:injectable/injectable.dart';
 import 'package:media_picker_widget/media_picker_widget.dart';
-import 'package:uuid/uuid.dart';
 
 import '../generated/l10n.dart';
 import '../google_photo/google_photo_repository.dart';
@@ -25,23 +24,21 @@ part 'home_page_state.dart';
 class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   final GooglePhotoRepository _googlePhotoRepository;
   final MediaItemFactory _mediaItemFactory;
-  final Uuid _uuid;
 
   late final StreamSubscription<UploadTaskResponse> _uploadSubscription;
 
   final _taskIdSet = <String, UploadStatus>{};
 
+  late void Function(MediaItem) onMediaItemPressed;
+
   HomePageBloc(
     this._googlePhotoRepository,
     this._mediaItemFactory,
-    this._uuid,
-  ) : super(const HomePageLoading(false)) {
+  ) : super(const HomePageLoading()) {
     on<GetMediaItems>(_onGetMediaItems);
     on<UploadMedia>(_onUploadMedia);
     on<UpdateUploadStatus>(_onUpdateUploadStatus);
     on<CreateMediaItem>(_onCreateMediaItem);
-
-    add(const GetMediaItems());
 
     _uploadSubscription =
         _googlePhotoRepository.uploadMediaItemResponse$.listen((event) {
@@ -63,6 +60,10 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
           ? previousValue++
           : previousValue);
 
+  void setOnMediaItemPressed(void Function(MediaItem) onMediaItemPressed) {
+    this.onMediaItemPressed = onMediaItemPressed;
+  }
+
   @override
   Future<void> close() async {
     super.close();
@@ -73,19 +74,30 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     GetMediaItems event,
     Emitter<HomePageState> emit,
   ) async {
-    emit(const HomePageLoading(true));
+    final loadType = event.loadType;
+    emit(HomePageLoading(isLoading: true, loadType: loadType));
 
     try {
       final response = await _googlePhotoRepository.getMediaItem(
-        nextPageToken: event.nextPageToken,
+        pageToken: event.nextPageToken,
       );
 
-      emit(HomePageMediaItemLoaded(await _mediaItemFactory
-          .generateMediaItemViews(response.mediaItems ?? [])));
+      emit(HomePageMediaItemLoaded(
+        mediaItemViews: await _mediaItemFactory.generateMediaItemViews(
+          response.mediaItems ?? [],
+          onMediaItemPressed,
+        ),
+        loadType: loadType,
+        nextPageToken: response.nextPageToken,
+      ));
     } catch (e) {
       _onError(e, emit);
+      emit(HomePageMediaItemLoaded(
+        loadType: loadType,
+        hasError: true,
+      ));
     } finally {
-      emit(const HomePageLoading(false));
+      emit(HomePageLoading(isLoading: false, loadType: loadType));
     }
   }
 
@@ -129,7 +141,6 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
         NewMediaItem(
           description: '',
           simpleMediaItem: SimpleMediaItem(
-            fileName: _uuid.v1(),
             uploadToken: event.uploadToken,
           ),
         )
