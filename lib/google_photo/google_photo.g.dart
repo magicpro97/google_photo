@@ -245,9 +245,9 @@ Map<String, dynamic> _$PhotoToJson(Photo instance) => <String, dynamic>{
     };
 
 Video _$VideoFromJson(Map<String, dynamic> json) => Video(
-      json['cameraMake'] as String,
-      json['cameraModel'] as String,
-      (json['fps'] as num).toDouble(),
+      json['cameraMake'] as String?,
+      json['cameraModel'] as String?,
+      (json['fps'] as num?)?.toDouble(),
       _videoProcessingStatusFromJson(json['status'] as String),
     );
 
@@ -255,7 +255,7 @@ Map<String, dynamic> _$VideoToJson(Video instance) => <String, dynamic>{
       'cameraMake': instance.cameraMake,
       'cameraModel': instance.cameraModel,
       'fps': instance.fps,
-      'status': _$VideoProcessingStatusEnumMap[instance.status]!,
+      'status': _$VideoProcessingStatusEnumMap[instance.status],
     };
 
 const _$VideoProcessingStatusEnumMap = {

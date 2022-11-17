@@ -38,6 +38,14 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
             scrollPhysics: const BouncingScrollPhysics(),
             builder: (BuildContext context, int index) {
               final mediaItem = _mediaItems[index];
+              // if (mediaItem.mediaMetadata.video != null) {
+              //   return PhotoViewGalleryPageOptions.customChild(
+              //     child: VideoView(
+              //       url: mediaItem.productUrl,
+              //     ),
+              //   );
+              // }
+
               return PhotoViewGalleryPageOptions(
                 imageProvider: CachedNetworkImageProvider(
                     mediaItem.baseUrl ?? mediaItem.productUrl),

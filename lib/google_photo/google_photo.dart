@@ -316,11 +316,11 @@ class Photo {
 
 @JsonSerializable()
 class Video {
-  final String cameraMake;
-  final String cameraModel;
-  final double fps;
+  final String? cameraMake;
+  final String? cameraModel;
+  final double? fps;
   @JsonKey(fromJson: _videoProcessingStatusFromJson)
-  final VideoProcessingStatus status;
+  final VideoProcessingStatus? status;
 
   Video(this.cameraMake, this.cameraModel, this.fps, this.status);
 

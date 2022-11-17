@@ -5,6 +5,7 @@ import 'package:google_photo/app/router/app_router.dart';
 import 'package:google_photo/shared/error.dart';
 import 'package:media_picker_widget/media_picker_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../generated/l10n.dart';
 import '../../google_photo/google_photo.dart';
@@ -110,10 +111,14 @@ class _PhotoListViewState extends State<PhotoListView> {
   }
 
   void _onMediaItemPressed(MediaItem mediaItem) {
-    context.pushRoute(PhotoDetailRoute(
-      mediaItems: _mediaItems,
-      initialIndex: _mediaItems.indexOf(mediaItem),
-    ));
+    if (mediaItem.mediaMetadata.video != null) {
+      launchUrlString(mediaItem.productUrl);
+    } else {
+      context.pushRoute(PhotoDetailRoute(
+        mediaItems: _mediaItems,
+        initialIndex: _mediaItems.indexOf(mediaItem),
+      ));
+    }
   }
 
   @override
