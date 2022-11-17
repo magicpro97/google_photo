@@ -27,7 +27,7 @@ GetListAlbumResponse _$GetListAlbumResponseFromJson(
       (json['albums'] as List<dynamic>?)
           ?.map((e) => Album.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['nextPageToken'] as String,
+      json['nextPageToken'] as String?,
     );
 
 Map<String, dynamic> _$CreateAlbumRequestToJson(CreateAlbumRequest instance) =>
@@ -40,7 +40,7 @@ CreateAlbumResponse _$CreateAlbumResponseFromJson(Map<String, dynamic> json) =>
       (json['albums'] as List<dynamic>)
           .map((e) => Album.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['nextPageToken'] as String,
+      json['nextPageToken'] as String?,
     );
 
 GetListMediaItemResponse _$GetListMediaItemResponseFromJson(
@@ -49,7 +49,7 @@ GetListMediaItemResponse _$GetListMediaItemResponseFromJson(
       (json['mediaItems'] as List<dynamic>?)
           ?.map((e) => MediaItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['nextPageToken'] as String,
+      json['nextPageToken'] as String?,
     );
 
 Map<String, dynamic> _$CreateMediaItemsRequestToJson(

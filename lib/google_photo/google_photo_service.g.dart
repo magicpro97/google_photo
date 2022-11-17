@@ -19,12 +19,18 @@ class _GooglePhotoService implements GooglePhotoService {
   String? baseUrl;
 
   @override
-  Future<GetListAlbumResponse> getAlbums(googlePhotoPagingRequest) async {
+  Future<GetListAlbumResponse> getAlbums(
+    pageSize,
+    pageToken,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'pageSize': pageSize,
+      r'pageToken': pageToken,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(googlePhotoPagingRequest.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<GetListAlbumResponse>(Options(
       method: 'GET',
@@ -68,12 +74,17 @@ class _GooglePhotoService implements GooglePhotoService {
 
   @override
   Future<GetListMediaItemResponse> getMediaItems(
-      googlePhotoPagingRequest) async {
+    pageSize,
+    pageToken,
+  ) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'pageSize': pageSize,
+      r'pageToken': pageToken,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(googlePhotoPagingRequest.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<GetListMediaItemResponse>(Options(
       method: 'GET',

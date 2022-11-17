@@ -11,7 +11,8 @@ abstract class GooglePhotoService {
 
   @GET('/albums')
   Future<GetListAlbumResponse> getAlbums(
-    @Body() GooglePhotoPagingRequest googlePhotoPagingRequest,
+    @Query('pageSize') String? pageSize,
+    @Query('pageToken') String? pageToken,
   );
 
   @POST('/albums')
@@ -20,7 +21,8 @@ abstract class GooglePhotoService {
 
   @GET('/mediaItems')
   Future<GetListMediaItemResponse> getMediaItems(
-    @Body() GooglePhotoPagingRequest googlePhotoPagingRequest,
+    @Query('pageSize') String? pageSize,
+    @Query('pageToken') String? pageToken,
   );
 
   @PATCH('/mediaItems/{id}')

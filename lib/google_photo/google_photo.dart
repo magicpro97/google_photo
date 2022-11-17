@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'google_photo.g.dart';
 
 abstract class GooglePhotoPagingResponse {
-  final String nextPageToken;
+  final String? nextPageToken;
 
   GooglePhotoPagingResponse(this.nextPageToken);
 }

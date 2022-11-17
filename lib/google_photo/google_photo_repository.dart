@@ -19,9 +19,8 @@ class GooglePhotoRepository {
     String? pageToken,
   }) {
     return _googlePhotoService.getMediaItems(
-      GooglePhotoPagingRequest(
-        pageToken: pageToken,
-      ),
+      null,
+      pageToken,
     );
   }
 
@@ -29,9 +28,8 @@ class GooglePhotoRepository {
     String? pageToken,
   }) {
     return _googlePhotoService.getAlbums(
-      GooglePhotoPagingRequest(
-        pageToken: pageToken,
-      ),
+      null,
+      pageToken,
     );
   }
 

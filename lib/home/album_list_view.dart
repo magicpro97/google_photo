@@ -53,7 +53,7 @@ class _AlbumListViewState extends State<AlbumListView> {
             _refreshController.refreshToIdle();
           }
           _albumItemViews.clear();
-          _nextPageToken = state.nextPageToken!;
+          _nextPageToken = state.nextPageToken;
         }
       } else {
         if (state.hasError) {
@@ -64,7 +64,7 @@ class _AlbumListViewState extends State<AlbumListView> {
           } else {
             _refreshController.loadNoData();
           }
-          _nextPageToken = state.nextPageToken!;
+          _nextPageToken = state.nextPageToken;
         }
       }
       _albumItemViews.addAll(state.albumItemViews);

@@ -28,10 +28,16 @@ class MediaItemView extends StatelessWidget {
         tag: mediaItem.id,
         child: InkWell(
           onTap: () => onMediaItemPressed(mediaItem),
-          child: CachedNetworkImage(
-            imageUrl: mediaItem.baseUrl,
-            fit: BoxFit.cover,
-            errorWidget: (_, __, ___) => const ErrorImageView(),
+          child: Card(
+            elevation: 10,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(4.0 ),
+              child: CachedNetworkImage(
+                imageUrl: mediaItem.baseUrl,
+                fit: BoxFit.cover,
+                errorWidget: (_, __, ___) => const ErrorImageView(),
+              ),
+            ),
           ),
         ),
       ),

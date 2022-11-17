@@ -63,7 +63,7 @@ class _PhotoListViewState extends State<PhotoListView> {
             _refreshController.refreshToIdle();
           }
           _mediaItemViews.clear();
-          _nextPageToken = state.nextPageToken!;
+          _nextPageToken = state.nextPageToken;
         }
       } else {
         if (state.hasError) {
@@ -74,7 +74,7 @@ class _PhotoListViewState extends State<PhotoListView> {
           } else {
             _refreshController.loadNoData();
           }
-          _nextPageToken = state.nextPageToken!;
+          _nextPageToken = state.nextPageToken;
         }
       }
       _mediaItemViews.addAll(state.mediaItemViews);
