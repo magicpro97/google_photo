@@ -1,8 +1,8 @@
-import 'package:google_photo/home/album_item_view/album_item_view.dart';
+import 'package:google_photo/home/album_list/album_item_view.dart';
 import 'package:injectable/injectable.dart';
 
 import '../google_photo/google_photo.dart';
-import 'media_item_view/media_item_view.dart';
+import 'photo_list/media_item_view.dart';
 
 @injectable
 class MediaItemFactory {

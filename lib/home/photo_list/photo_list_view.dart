@@ -2,26 +2,30 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_photo/app/router/app_router.dart';
+import 'package:google_photo/shared/error.dart';
 import 'package:media_picker_widget/media_picker_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../generated/l10n.dart';
-import '../google_photo/google_photo.dart';
-import 'dialogs.dart';
-import 'home_page_bloc.dart';
-import 'media_item_view/media_item_view.dart';
+import '../../generated/l10n.dart';
+import '../../google_photo/google_photo.dart';
+import '../dialogs.dart';
+import 'media_item_view.dart';
+import 'photo_list_bloc.dart';
 
 class PhotoListView extends StatefulWidget {
   const PhotoListView({
     Key? key,
+    @pathParam this.id,
   }) : super(key: key);
+
+  final String? id;
 
   @override
   State<PhotoListView> createState() => _PhotoListViewState();
 }
 
 class _PhotoListViewState extends State<PhotoListView> {
-  late final _homePageBloc = context.read<HomePageBloc>();
+  late final _photoListBloc = context.read<PhotoListBloc>();
   final List<MediaItemView> _mediaItemViews = [];
   final List<MediaItem> _mediaItems = [];
   final _refreshController = RefreshController(
@@ -33,12 +37,12 @@ class _PhotoListViewState extends State<PhotoListView> {
   String? _nextPageToken;
 
   void _onRefresh() {
-    _homePageBloc.add(const GetMediaItems(loadType: LoadType.refresh));
+    _photoListBloc.add(const GetMediaItems(loadType: LoadType.refresh));
   }
 
   void _onLoadMore() {
     if (_nextPageToken != null) {
-      _homePageBloc.add(GetMediaItems(
+      _photoListBloc.add(GetMediaItems(
         nextPageToken: _nextPageToken,
         loadType: LoadType.loadMore,
       ));
@@ -47,13 +51,13 @@ class _PhotoListViewState extends State<PhotoListView> {
     }
   }
 
-  void _homePageBlocListener(BuildContext context, HomePageState state) {
+  void _homePageBlocListener(BuildContext context, PhotoListState state) {
     if (state is UploadProgress) {
       _progress = state.current / state.total;
       if (_progress == 1) {
         _mediaList.clear();
       }
-    } else if (state is HomePageMediaItemLoaded) {
+    } else if (state is PhotoListMediaItemLoaded) {
       final mediaItemViews = state.mediaItemViews;
       if (state.loadType == LoadType.refresh) {
         if (state.hasError) {
@@ -83,6 +87,8 @@ class _PhotoListViewState extends State<PhotoListView> {
       _mediaItems.addAll(state.mediaItems);
     } else if (state is MediaItemCreated) {
       _refreshController.requestRefresh();
+    } else if (state is PhotoListError) {
+      showError(context, state.error);
     }
   }
 
@@ -93,7 +99,7 @@ class _PhotoListViewState extends State<PhotoListView> {
       onPicking: (selectedMedias) => _mediaList = selectedMedias,
     ).then((value) {
       if (value != null) {
-        _homePageBloc.add(UploadMedia(_mediaList));
+        _photoListBloc.add(UploadMedia(_mediaList));
         _mediaList = [];
       }
     });
@@ -109,12 +115,12 @@ class _PhotoListViewState extends State<PhotoListView> {
   @override
   void initState() {
     super.initState();
-    _homePageBloc.setOnMediaItemPressed(_onMediaItemPressed);
+    _photoListBloc.setOnMediaItemPressed(_onMediaItemPressed);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomePageBloc, HomePageState>(
+    return BlocConsumer<PhotoListBloc, PhotoListState>(
       listener: _homePageBlocListener,
       builder: _homePageBlocBuilder,
     );
@@ -122,7 +128,7 @@ class _PhotoListViewState extends State<PhotoListView> {
 
   Widget _homePageBlocBuilder(
     BuildContext context,
-    HomePageState state,
+    PhotoListState state,
   ) {
     return Scaffold(
       appBar: AppBar(

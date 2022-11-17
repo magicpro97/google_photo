@@ -20,9 +20,10 @@ import '../../google_photo/google_photo_service.dart' as _i14;
 import '../../google_photo/google_photo_upload_service.dart' as _i10;
 import '../../home/home_page_bloc.dart' as _i16;
 import '../../home/media_item_factory.dart' as _i7;
+import '../../home/photo_list/photo_list_bloc.dart' as _i17;
 import '../../login/login_page_bloc.dart' as _i11;
 import '../token_interceptor.dart' as _i12;
-import 'register_module.dart' as _i17; // ignore_for_file: unnecessary_lambdas
+import 'register_module.dart' as _i18; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -77,7 +78,11 @@ _i1.GetIt $initGetIt(
         get<_i15.GooglePhotoRepository>(),
         get<_i7.MediaItemFactory>(),
       ));
+  gh.factory<_i17.PhotoListBloc>(() => _i17.PhotoListBloc(
+        get<_i15.GooglePhotoRepository>(),
+        get<_i7.MediaItemFactory>(),
+      ));
   return get;
 }
 
-class _$RegisterModule extends _i17.RegisterModule {}
+class _$RegisterModule extends _i18.RegisterModule {}

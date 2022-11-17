@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_photo/home/album_item_view/album_item_view.dart';
+import 'package:google_photo/home/album_list/album_item_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../generated/l10n.dart';
-import '../google_photo/google_photo.dart';
-import 'home_page_bloc.dart';
+import '../../generated/l10n.dart';
+import '../../google_photo/google_photo.dart';
+import '../home_page_bloc.dart';
 
 class AlbumListView extends StatefulWidget {
   const AlbumListView({
@@ -80,7 +80,7 @@ class _AlbumListViewState extends State<AlbumListView> {
   @override
   void initState() {
     super.initState();
-    _homePageBloc.setOnAlbumPressed(_onAlbumItemPressed);
+    _homePageBloc.setOnAlbumItemPressed(_onAlbumItemPressed);
   }
 
   @override

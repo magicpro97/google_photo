@@ -6,9 +6,10 @@ import 'package:google_photo/shared/error.dart';
 import '../app/di/dependencies.dart';
 import '../generated/l10n.dart';
 import '../shared/widgets/full_screen_loading_page.dart';
-import 'album_list_view.dart';
+import 'album_list/album_list_view.dart';
 import 'home_page_bloc.dart';
-import 'photo_list_view.dart';
+import 'photo_list/photo_list_bloc.dart';
+import 'photo_list/photo_list_view.dart';
 
 class HomePage extends StatefulWidget with AutoRouteWrapper {
   const HomePage({Key? key}) : super(key: key);
@@ -58,9 +59,12 @@ class _HomePageState extends State<HomePage> {
     return FullScreenLoadingPage(
       body: IndexedStack(
         index: _currentIndex,
-        children: const [
-          PhotoListView(),
-          AlbumListView(),
+        children: [
+          BlocProvider<PhotoListBloc>(
+            create: (context) => getIt(),
+            child: const PhotoListView(),
+          ),
+          const AlbumListView(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
