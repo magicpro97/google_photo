@@ -12,6 +12,7 @@ import 'package:media_picker_widget/media_picker_widget.dart';
 import '../generated/l10n.dart';
 import '../google_photo/google_photo_repository.dart';
 import '../shared/error.dart';
+import 'album_item_view/album_item_view.dart';
 import 'media_item_factory.dart';
 import 'media_item_view/media_item_view.dart';
 import 'upload_status.dart';
@@ -30,12 +31,14 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   final _taskIdSet = <String, UploadStatus>{};
 
   late void Function(MediaItem) onMediaItemPressed;
+  late void Function(Album) onAlbumItemPressed;
 
   HomePageBloc(
     this._googlePhotoRepository,
     this._mediaItemFactory,
   ) : super(const HomePageLoading()) {
     on<GetMediaItems>(_onGetMediaItems);
+    on<GetAlbums>(_onGetAlbums);
     on<UploadMedia>(_onUploadMedia);
     on<UpdateUploadStatus>(_onUpdateUploadStatus);
     on<CreateMediaItem>(_onCreateMediaItem);
@@ -64,6 +67,10 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     this.onMediaItemPressed = onMediaItemPressed;
   }
 
+  void setOnAlbumPressed(void Function(Album) onAlbumItemPressed) {
+    this.onAlbumItemPressed = onAlbumItemPressed;
+  }
+
   @override
   Future<void> close() async {
     super.close();
@@ -78,7 +85,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
     emit(HomePageLoading(isLoading: true, loadType: loadType));
 
     try {
-      final response = await _googlePhotoRepository.getMediaItem(
+      final response = await _googlePhotoRepository.getMediaItems(
         pageToken: event.nextPageToken,
       );
 
@@ -162,6 +169,37 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
       emit(HomePageError(UnauthorizedError('')));
     } else {
       emit(HomePageError(AppError(S.current.something_happened)));
+    }
+  }
+
+  FutureOr<void> _onGetAlbums(
+    GetAlbums event,
+    Emitter<HomePageState> emit,
+  ) async {
+    final loadType = event.loadType;
+    emit(HomePageLoading(isLoading: true, loadType: loadType));
+
+    try {
+      final response = await _googlePhotoRepository.getAlbums(
+        pageToken: event.nextPageToken,
+      );
+
+      emit(HomePageAlbumsLoaded(
+        albumItemViews: await _mediaItemFactory.generateAlbumViews(
+          response.albums ?? [],
+          onAlbumItemPressed,
+        ),
+        loadType: loadType,
+        nextPageToken: response.nextPageToken,
+      ));
+    } catch (e) {
+      _onError(e, emit);
+      emit(HomePageAlbumsLoaded(
+        loadType: loadType,
+        hasError: true,
+      ));
+    } finally {
+      emit(HomePageLoading(isLoading: false, loadType: loadType));
     }
   }
 }

@@ -10,7 +10,9 @@ abstract class GooglePhotoService {
   factory GooglePhotoService(Dio dio, {String? baseUrl}) = _GooglePhotoService;
 
   @GET('/albums')
-  Future<GetListAlbumResponse> getAlbums();
+  Future<GetListAlbumResponse> getAlbums(
+    @Body() GooglePhotoPagingRequest googlePhotoPagingRequest,
+  );
 
   @POST('/albums')
   Future<GetListAlbumResponse> createAlbum(

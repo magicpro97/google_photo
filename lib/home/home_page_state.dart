@@ -53,6 +53,28 @@ class HomePageMediaItemLoaded extends HomePageState {
       ];
 }
 
+class HomePageAlbumsLoaded extends HomePageState {
+  final List<AlbumItemView> albumItemViews;
+  final LoadType loadType;
+  final String? nextPageToken;
+  final bool hasError;
+
+  const HomePageAlbumsLoaded({
+    this.albumItemViews = const [],
+    this.loadType = LoadType.refresh,
+    this.nextPageToken,
+    this.hasError = false,
+  });
+
+  @override
+  List<Object?> get props => [
+        albumItemViews,
+        loadType,
+        nextPageToken,
+        hasError,
+      ];
+}
+
 class UploadProgress extends HomePageState {
   final int current;
   final int total;

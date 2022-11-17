@@ -25,7 +25,7 @@ class GooglePhotoPagingRequest {
 
 @JsonSerializable(createToJson: false)
 class GetListAlbumResponse extends GooglePhotoPagingResponse {
-  final List<Album> albums;
+  final List<Album>? albums;
 
   GetListAlbumResponse(
     this.albums,
@@ -165,8 +165,8 @@ class Album {
   final String id;
   final String title;
   final String productUrl;
-  final bool isWriteable;
-  final ShareInfo shareInfo;
+  final bool? isWriteable;
+  final ShareInfo? shareInfo;
   final String mediaItemsCount;
   final String coverPhotoBaseUrl;
   final String coverPhotoMediaItemId;

@@ -15,10 +15,20 @@ class GooglePhotoRepository {
     this._googlePhotoUploadService,
   );
 
-  Future<GetListMediaItemResponse> getMediaItem({
+  Future<GetListMediaItemResponse> getMediaItems({
     String? pageToken,
   }) {
     return _googlePhotoService.getMediaItems(
+      GooglePhotoPagingRequest(
+        pageToken: pageToken,
+      ),
+    );
+  }
+
+  Future<GetListAlbumResponse> getAlbums({
+    String? pageToken,
+  }) {
+    return _googlePhotoService.getAlbums(
       GooglePhotoPagingRequest(
         pageToken: pageToken,
       ),

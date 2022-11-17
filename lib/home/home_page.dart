@@ -6,6 +6,7 @@ import 'package:google_photo/shared/error.dart';
 import '../app/di/dependencies.dart';
 import '../generated/l10n.dart';
 import '../shared/widgets/full_screen_loading_page.dart';
+import 'album_list_view.dart';
 import 'home_page_bloc.dart';
 import 'photo_list_view.dart';
 
@@ -57,9 +58,9 @@ class _HomePageState extends State<HomePage> {
     return FullScreenLoadingPage(
       body: IndexedStack(
         index: _currentIndex,
-        children: [
-          const PhotoListView(),
-          Container(),
+        children: const [
+          PhotoListView(),
+          AlbumListView(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

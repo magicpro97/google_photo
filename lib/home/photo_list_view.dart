@@ -116,32 +116,35 @@ class _PhotoListViewState extends State<PhotoListView> {
       appBar: AppBar(
         title: Text(S.current.photo),
       ),
-      body: Column(
-        children: [
-          Visibility(
-            visible: _progress > 0 && _progress < 1,
-            child: LinearProgressIndicator(
-              value: _progress,
-            ),
-          ),
-          Expanded(
-            child: SmartRefresher(
-              controller: _refreshController,
-              onRefresh: _onRefresh,
-              onLoading: _onLoadMore,
-              enablePullUp: true,
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 1,
-                  mainAxisSpacing: 1,
-                ),
-                itemBuilder: (_, index) => _mediaItemViews[index],
-                itemCount: _mediaItemViews.length,
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: [
+            Visibility(
+              visible: _progress > 0 && _progress < 1,
+              child: LinearProgressIndicator(
+                value: _progress,
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: SmartRefresher(
+                controller: _refreshController,
+                onRefresh: _onRefresh,
+                onLoading: _onLoadMore,
+                enablePullUp: true,
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 1,
+                    mainAxisSpacing: 1,
+                  ),
+                  itemBuilder: (_, index) => _mediaItemViews[index],
+                  itemCount: _mediaItemViews.length,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: UniqueKey(),

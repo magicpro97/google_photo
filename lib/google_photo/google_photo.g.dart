@@ -24,8 +24,8 @@ Map<String, dynamic> _$GooglePhotoPagingRequestToJson(
 GetListAlbumResponse _$GetListAlbumResponseFromJson(
         Map<String, dynamic> json) =>
     GetListAlbumResponse(
-      (json['albums'] as List<dynamic>)
-          .map((e) => Album.fromJson(e as Map<String, dynamic>))
+      (json['albums'] as List<dynamic>?)
+          ?.map((e) => Album.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['nextPageToken'] as String,
     );
@@ -112,8 +112,10 @@ Album _$AlbumFromJson(Map<String, dynamic> json) => Album(
       json['id'] as String,
       json['title'] as String,
       json['productUrl'] as String,
-      json['isWriteable'] as bool,
-      ShareInfo.fromJson(json['shareInfo'] as Map<String, dynamic>),
+      json['isWriteable'] as bool?,
+      json['shareInfo'] == null
+          ? null
+          : ShareInfo.fromJson(json['shareInfo'] as Map<String, dynamic>),
       json['mediaItemsCount'] as String,
       json['coverPhotoBaseUrl'] as String,
       json['coverPhotoMediaItemId'] as String,

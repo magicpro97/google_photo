@@ -17,6 +17,19 @@ class GetMediaItems extends HomePageEvent {
   List<Object?> get props => [nextPageToken, loadType];
 }
 
+class GetAlbums extends HomePageEvent {
+  final LoadType loadType;
+  final String? nextPageToken;
+
+  const GetAlbums({
+    this.nextPageToken,
+    this.loadType = LoadType.refresh,
+  });
+
+  @override
+  List<Object?> get props => [nextPageToken, loadType];
+}
+
 class UploadMedia extends HomePageEvent {
   final List<Media> mediaList;
 
