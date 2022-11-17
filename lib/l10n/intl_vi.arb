@@ -6,5 +6,7 @@
   "album": "Album",
   "session_expired": "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!",
   "next": "Tiếp theo",
-  "error": "Lỗi"
+  "error": "Lỗi",
+  "title":  "Tiêu đề",
+  "required": "*Bắt buộc"
 }

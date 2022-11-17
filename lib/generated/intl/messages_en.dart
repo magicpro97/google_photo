@@ -29,9 +29,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Login unsuccessfully!"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "photo": MessageLookupByLibrary.simpleMessage("Photo"),
+        "required": MessageLookupByLibrary.simpleMessage("*Required"),
         "session_expired": MessageLookupByLibrary.simpleMessage(
             "Session expired. Please login again!"),
         "something_happened": MessageLookupByLibrary.simpleMessage(
-            "Something happened. Please try later!")
+            "Something happened. Please try later!"),
+        "title": MessageLookupByLibrary.simpleMessage("Title")
       };
 }

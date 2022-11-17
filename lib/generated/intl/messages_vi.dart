@@ -29,9 +29,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Đăng nhập thất bại."),
         "next": MessageLookupByLibrary.simpleMessage("Tiếp theo"),
         "photo": MessageLookupByLibrary.simpleMessage("Ảnh"),
+        "required": MessageLookupByLibrary.simpleMessage("*Bắt buộc"),
         "session_expired": MessageLookupByLibrary.simpleMessage(
             "Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!"),
         "something_happened": MessageLookupByLibrary.simpleMessage(
-            "Có sự cố xảy ra. Vui lòng thử lại sau!")
+            "Có sự cố xảy ra. Vui lòng thử lại sau!"),
+        "title": MessageLookupByLibrary.simpleMessage("Tiêu đề")
       };
 }

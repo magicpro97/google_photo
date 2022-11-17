@@ -52,6 +52,12 @@ class _$AppRouter extends RootStackRouter {
         )),
       );
     },
+    AlbumCreateRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const AlbumCreatePage(),
+      );
+    },
   };
 
   @override
@@ -77,6 +83,10 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           AlbumRoute.name,
           path: '/albums/:id',
+        ),
+        RouteConfig(
+          AlbumCreateRoute.name,
+          path: '/albums/create',
         ),
       ];
 }
@@ -176,4 +186,16 @@ class AlbumRouteArgs {
   String toString() {
     return 'AlbumRouteArgs{key: $key, id: $id}';
   }
+}
+
+/// generated route for
+/// [AlbumCreatePage]
+class AlbumCreateRoute extends PageRouteInfo<void> {
+  const AlbumCreateRoute()
+      : super(
+          AlbumCreateRoute.name,
+          path: '/albums/create',
+        );
+
+  static const String name = 'AlbumCreateRoute';
 }

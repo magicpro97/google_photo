@@ -6,5 +6,7 @@
   "album": "Album",
   "session_expired": "Session expired. Please login again!",
   "next": "Next",
-  "error": "Error"
+  "error": "Error",
+  "title":  "Title",
+  "required": "*Required"
 }

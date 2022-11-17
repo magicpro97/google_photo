@@ -74,7 +74,7 @@ class _AlbumListViewState extends State<AlbumListView> {
   }
 
   void _onAddButtonPressed() {
-
+    context.pushRoute(const AlbumCreateRoute());
   }
 
   void _onAlbumItemPressed(Album album) {
