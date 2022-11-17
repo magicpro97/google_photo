@@ -23,7 +23,7 @@ class PhotoDetailPage extends StatefulWidget {
 class _PhotoDetailPageState extends State<PhotoDetailPage> {
   late final _pageController =
       PageController(initialPage: widget.initialIndex ?? 0);
-  late List<MediaItem> _mediaItems = [...widget.mediaItems];
+  late final List<MediaItem> _mediaItems = widget.mediaItems;
 
   void _onBackPressed() {
     context.router.pop(false);

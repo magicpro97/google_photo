@@ -25,11 +25,6 @@ part 'app_router.gr.dart';
       path: '/photos',
       name: 'PhotoDetailRoute',
     ),
-    AutoRoute(
-      page: PhotoDetailPage,
-      name: 'AlbumRoute',
-      path: '/album/:id',
-    ),
   ],
 )
 // extend the generated private router

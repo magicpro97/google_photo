@@ -73,7 +73,9 @@ class _AlbumListViewState extends State<AlbumListView> {
 
   void _onAddButtonPressed() {}
 
-  void _onAlbumItemPressed(Album album) {}
+  void _onAlbumItemPressed(Album album) {
+    //context.pushRoute(AlbumRoute());
+  }
 
   @override
   void initState() {
