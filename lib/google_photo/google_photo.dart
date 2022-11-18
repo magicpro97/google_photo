@@ -60,12 +60,11 @@ class CreateAlbumRequest {
 }
 
 @JsonSerializable(createToJson: false)
-class CreateAlbumResponse extends GooglePhotoPagingResponse {
-  final List<Album> albums;
+class CreateAlbumResponse {
+  final Album albums;
 
   CreateAlbumResponse(
     this.albums,
-    super.nextPageToken,
   );
 
   factory CreateAlbumResponse.fromJson(Map<String, dynamic> json) =>
@@ -87,9 +86,14 @@ class GetListMediaItemResponse extends GooglePhotoPagingResponse {
 
 @JsonSerializable(createFactory: false)
 class CreateMediaItemsRequest {
+  @JsonKey(includeIfNull: false)
+  final String? albumId;
   final List<NewMediaItem> newMediaItems;
 
-  CreateMediaItemsRequest(this.newMediaItems);
+  CreateMediaItemsRequest({
+    required this.newMediaItems,
+    this.albumId,
+  });
 
   Map<String, dynamic> toJson() => _$CreateMediaItemsRequestToJson(this);
 }
@@ -176,25 +180,32 @@ class Status {
 
 @JsonSerializable()
 class Album {
-  final String id;
+  @JsonKey(includeIfNull: false)
+  final String? id;
   final String title;
-  final String productUrl;
+  @JsonKey(includeIfNull: false)
+  final String? productUrl;
+  @JsonKey(includeIfNull: false)
   final bool? isWriteable;
+  @JsonKey(includeIfNull: false)
   final ShareInfo? shareInfo;
-  final String mediaItemsCount;
-  final String coverPhotoBaseUrl;
-  final String coverPhotoMediaItemId;
+  @JsonKey(includeIfNull: false)
+  final String? mediaItemsCount;
+  @JsonKey(includeIfNull: false)
+  final String? coverPhotoBaseUrl;
+  @JsonKey(includeIfNull: false)
+  final String? coverPhotoMediaItemId;
 
-  Album(
+  Album({
     this.id,
-    this.title,
+    required this.title,
     this.productUrl,
     this.isWriteable,
     this.shareInfo,
     this.mediaItemsCount,
     this.coverPhotoBaseUrl,
     this.coverPhotoMediaItemId,
-  );
+  });
 
   factory Album.fromJson(Map<String, dynamic> json) => _$AlbumFromJson(json);
 

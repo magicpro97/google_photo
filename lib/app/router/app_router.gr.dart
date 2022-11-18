@@ -55,7 +55,7 @@ class _$AppRouter extends RootStackRouter {
     AlbumCreateRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const AlbumCreatePage(),
+        child: WrappedRoute(child: const AlbumCreatePage()),
       );
     },
   };

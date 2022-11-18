@@ -1,4 +1,6 @@
-import 'package:dio/dio.dart';
+import 'dart:io';
+
+import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 
 import 'google_photo.dart';
@@ -16,8 +18,14 @@ abstract class GooglePhotoService {
   );
 
   @POST('/albums')
-  Future<GetListAlbumResponse> createAlbum(
-      @Body() CreateAlbumRequest createAlbumRequest);
+  Future<Album> createAlbum(@Body() CreateAlbumRequest createAlbumRequest);
+
+  @PATCH('/albums/{id}')
+  Future<Album> updateAlbum(
+    @Path('id') String albumId,
+    @Body() Album updateAlbumRequest, {
+    @Query('updateMask') String? updateMask,
+  });
 
   @GET('/mediaItems')
   Future<GetListMediaItemResponse> getMediaItems(
@@ -40,4 +48,17 @@ abstract class GooglePhotoService {
   Future<GetListMediaItemResponse> searchMediaItems(
     @Body() SearchMediaItemRequest searchMediaItemRequest,
   );
+
+  @POST('/uploads')
+  @MultiPart()
+  @Headers({
+    'Content-Type': 'application/octet-stream',
+    'X-Goog-Upload-Protocol': 'raw',
+  })
+  Future<String> uploadMedia(
+    @Part() File file,
+    @Header('X-Goog-Upload-Content-Type') String mimeType, {
+    @SendProgress() ProgressCallback? sendProgress,
+    @CancelRequest() CancelToken? cancelToken,
+  });
 }

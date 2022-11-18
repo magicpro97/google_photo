@@ -53,10 +53,7 @@ Map<String, dynamic> _$CreateAlbumRequestToJson(CreateAlbumRequest instance) =>
 
 CreateAlbumResponse _$CreateAlbumResponseFromJson(Map<String, dynamic> json) =>
     CreateAlbumResponse(
-      (json['albums'] as List<dynamic>)
-          .map((e) => Album.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      json['nextPageToken'] as String?,
+      Album.fromJson(json['albums'] as Map<String, dynamic>),
     );
 
 GetListMediaItemResponse _$GetListMediaItemResponseFromJson(
@@ -69,10 +66,19 @@ GetListMediaItemResponse _$GetListMediaItemResponseFromJson(
     );
 
 Map<String, dynamic> _$CreateMediaItemsRequestToJson(
-        CreateMediaItemsRequest instance) =>
-    <String, dynamic>{
-      'newMediaItems': instance.newMediaItems,
-    };
+    CreateMediaItemsRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('albumId', instance.albumId);
+  val['newMediaItems'] = instance.newMediaItems;
+  return val;
+}
 
 Map<String, dynamic> _$NewMediaItemToJson(NewMediaItem instance) {
   final val = <String, dynamic>{};
@@ -125,28 +131,37 @@ Status _$StatusFromJson(Map<String, dynamic> json) => Status(
     );
 
 Album _$AlbumFromJson(Map<String, dynamic> json) => Album(
-      json['id'] as String,
-      json['title'] as String,
-      json['productUrl'] as String,
-      json['isWriteable'] as bool?,
-      json['shareInfo'] == null
+      id: json['id'] as String?,
+      title: json['title'] as String,
+      productUrl: json['productUrl'] as String?,
+      isWriteable: json['isWriteable'] as bool?,
+      shareInfo: json['shareInfo'] == null
           ? null
           : ShareInfo.fromJson(json['shareInfo'] as Map<String, dynamic>),
-      json['mediaItemsCount'] as String,
-      json['coverPhotoBaseUrl'] as String,
-      json['coverPhotoMediaItemId'] as String,
+      mediaItemsCount: json['mediaItemsCount'] as String?,
+      coverPhotoBaseUrl: json['coverPhotoBaseUrl'] as String?,
+      coverPhotoMediaItemId: json['coverPhotoMediaItemId'] as String?,
     );
 
-Map<String, dynamic> _$AlbumToJson(Album instance) => <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'productUrl': instance.productUrl,
-      'isWriteable': instance.isWriteable,
-      'shareInfo': instance.shareInfo,
-      'mediaItemsCount': instance.mediaItemsCount,
-      'coverPhotoBaseUrl': instance.coverPhotoBaseUrl,
-      'coverPhotoMediaItemId': instance.coverPhotoMediaItemId,
-    };
+Map<String, dynamic> _$AlbumToJson(Album instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  val['title'] = instance.title;
+  writeNotNull('productUrl', instance.productUrl);
+  writeNotNull('isWriteable', instance.isWriteable);
+  writeNotNull('shareInfo', instance.shareInfo);
+  writeNotNull('mediaItemsCount', instance.mediaItemsCount);
+  writeNotNull('coverPhotoBaseUrl', instance.coverPhotoBaseUrl);
+  writeNotNull('coverPhotoMediaItemId', instance.coverPhotoMediaItemId);
+  return val;
+}
 
 ShareInfo _$ShareInfoFromJson(Map<String, dynamic> json) => ShareInfo(
       SharedAlbumOptions.fromJson(

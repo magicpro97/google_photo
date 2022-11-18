@@ -8,13 +8,12 @@ import 'package:google_photo/shared/extensions.dart';
 import 'package:injectable/injectable.dart';
 import 'package:media_picker_widget/media_picker_widget.dart';
 
-import '../../generated/l10n.dart';
 import '../../google_photo/google_photo.dart';
 import '../../google_photo/google_photo_repository.dart';
 import '../../shared/error.dart';
 import '../media_item_factory.dart';
-import 'media_item_view.dart';
 import '../upload_status.dart';
+import 'media_item_view.dart';
 
 part 'photo_list_event.dart';
 
@@ -93,7 +92,7 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
       }
 
       emit(PhotoListMediaItemLoaded(
-        mediaItemViews: await _mediaItemFactory.generateMediaItemViews(
+        mediaItemViews: _mediaItemFactory.generateMediaItemViews(
           response.mediaItems ?? [],
           onMediaItemPressed,
         ),
@@ -121,7 +120,7 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
       final tasks = mediaList
           .where((e) => e.file != null)
           .where((e) => e.file!.path.fileName.mineType != null)
-          .map((e) => _googlePhotoRepository.uploadMediaItems(
+          .map((e) => _googlePhotoRepository.uploadMediaItemsBackground(
                 mimeType: e.file!.path.fileName.mineType!,
                 filePath: e.file!.path,
               ))
@@ -153,13 +152,15 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
         throw Exception();
       }
 
-      await _googlePhotoRepository.createMediaItems([
-        NewMediaItem(
-          simpleMediaItem: SimpleMediaItem(
-            uploadToken: uploadToken,
-          ),
-        )
-      ]);
+      await _googlePhotoRepository.createMediaItems(
+        newMediaItems: [
+          NewMediaItem(
+            simpleMediaItem: SimpleMediaItem(
+              uploadToken: uploadToken,
+            ),
+          )
+        ],
+      );
 
       add(UpdateUploadStatus(
         current: _current,
@@ -174,9 +175,9 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
 
   void _onError(Object e, Emitter<PhotoListState> emit) {
     if (e is DioError && e.response?.statusCode == 401) {
-      emit(PhotoListError(UnauthorizedError('')));
+      emit(PhotoListError(UnauthorizedError()));
     } else {
-      emit(PhotoListError(AppError(S.current.something_happened)));
+      emit(PhotoListError(AppError()));
     }
   }
 }

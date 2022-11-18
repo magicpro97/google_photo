@@ -7,7 +7,6 @@ import 'package:google_photo/google_photo/google_photo.dart';
 import 'package:injectable/injectable.dart';
 import 'package:media_picker_widget/media_picker_widget.dart';
 
-import '../generated/l10n.dart';
 import '../google_photo/google_photo_repository.dart';
 import '../shared/error.dart';
 import 'album_list/album_item_view.dart';
@@ -49,7 +48,7 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
       );
 
       emit(HomePageAlbumsLoaded(
-        albumItemViews: await _mediaItemFactory.generateAlbumViews(
+        albumItemViews: _mediaItemFactory.generateAlbumViews(
           response.albums ?? [],
           onAlbumItemPressed,
         ),
@@ -69,9 +68,9 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
 
   void _onError(Object e, Emitter<HomePageState> emit) {
     if (e is DioError && e.response?.statusCode == 401) {
-      emit(HomePageError(UnauthorizedError('')));
+      emit(HomePageError(UnauthorizedError()));
     } else {
-      emit(HomePageError(AppError(S.current.something_happened)));
+      emit(HomePageError(AppError()));
     }
   }
 }

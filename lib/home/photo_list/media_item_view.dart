@@ -13,12 +13,10 @@ class MediaItemView extends StatelessWidget {
   const MediaItemView({
     Key? key,
     required this.mediaItem,
-    required this.type,
     required this.onMediaItemPressed,
   }) : super(key: key);
 
   final MediaItem mediaItem;
-  final ViewType type;
   final void Function(MediaItem) onMediaItemPressed;
 
   @override

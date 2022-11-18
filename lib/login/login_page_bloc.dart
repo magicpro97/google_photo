@@ -42,13 +42,13 @@ class LoginPageBloc extends Bloc<LoginPageEvent, LoginPageState> {
         _authenticationStorage.saveAccessToken(authentication.accessToken!);
         emit(LoginSuccess());
       } else {
-        emit(LoginError(AppError(S.current.login_unsuccessfully)));
+        emit(LoginError(AppError(message: S.current.login_unsuccessfully)));
       }
 
       emit(const LoginPageLoading(false));
     } catch (e) {
       emit(const LoginPageLoading(false));
-      emit(LoginError(AppError(S.current.login_unsuccessfully)));
+      emit(LoginError(AppError(message: S.current.login_unsuccessfully)));
     }
   }
 }

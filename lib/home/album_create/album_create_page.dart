@@ -1,25 +1,38 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_photo/home/album_create/media_item/album_media_item_view_bloc.dart';
+import 'package:google_photo/shared/error.dart';
+import 'package:google_photo/shared/widgets/full_screen_loading_page.dart';
 import 'package:media_picker_widget/media_picker_widget.dart';
 
+import '../../app/di/dependencies.dart';
 import '../../generated/l10n.dart';
 import '../dialogs.dart';
-import '../photo_list/media_item_view.dart';
 import 'album_create_page_bloc.dart';
 
-class AlbumCreatePage extends StatefulWidget {
+class AlbumCreatePage extends StatefulWidget with AutoRouteWrapper {
   const AlbumCreatePage({Key? key}) : super(key: key);
 
   @override
   State<AlbumCreatePage> createState() => _AlbumCreatePageState();
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider<AlbumCreatePageBloc>(
+      create: (_) => getIt(),
+      child: this,
+    );
+  }
 }
 
 class _AlbumCreatePageState extends State<AlbumCreatePage> {
   late final _albumCreateBloc = context.read<AlbumCreatePageBloc>();
-  final List<MediaItemView> _mediaItemViews = [];
+  final List<BlocProvider<AlbumMediaItemViewBloc>> _mediaItemViews = [];
   List<Media> _mediaList = [];
+  String? _albumId;
   final _titleController = TextEditingController();
+  final _titleFocus = FocusNode();
 
   void _onAddButtonPressed() {
     showMediaPicker(
@@ -28,19 +41,86 @@ class _AlbumCreatePageState extends State<AlbumCreatePage> {
       onPicking: (selectedMedias) => _mediaList = selectedMedias,
     ).then((value) {
       if (value != null) {
-        _albumCreateBloc.add(UploadMedia(_mediaList));
+        _albumCreateBloc.add(UploadMedia(
+          mediaList: _mediaList,
+        ));
         _mediaList = [];
       }
     });
   }
 
   void _onBackPressed() {
-    context.router.pop(false);
+    context.router.pop(_albumId != null);
+  }
+
+  void _albumCreatePageBlocListener(
+    BuildContext context,
+    AlbumCreatePageState state,
+  ) {
+    if (state is UploadingMedia) {
+      _mediaItemViews.addAll(state.albumMediaItemViews
+          .map((e) => BlocProvider<AlbumMediaItemViewBloc>(
+                create: (_) => getIt(),
+                child: e,
+              ))
+          .toList(growable: false));
+    } else if (state is AlbumCreated) {
+      _albumId = state.albumId;
+    } else if (state is AlbumCreateError) {
+      showError(context, state.error);
+    }
+  }
+
+  void _onMediaItemPressed(Media media) {}
+
+  void _onMediaItemUploaded(Media media, String uploadToken) {
+    _albumCreateBloc.add(CreateMediaItem(
+      uploadToken: uploadToken,
+      albumId: _albumId!,
+    ));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _albumCreateBloc.setOnMediaItemPressed(_onMediaItemPressed);
+    _albumCreateBloc.setOnMediaItemUploaded(_onMediaItemUploaded);
+
+    _titleFocus.addListener(() {
+      if (!_titleFocus.hasFocus && _titleController.text.isNotEmpty) {
+        if (_albumId == null) {
+          _albumCreateBloc.add(CreateAlbum(_titleController.text));
+        } else {
+          _albumCreateBloc.add(UpdateAlbum(
+            albumId: _albumId!,
+            albumTitle: _titleController.text,
+          ));
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _titleFocus.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocConsumer<AlbumCreatePageBloc, AlbumCreatePageState>(
+      listener: _albumCreatePageBlocListener,
+      builder: _albumCreatePageBlocBuilder,
+    );
+  }
+
+  Widget _albumCreatePageBlocBuilder(
+    BuildContext context,
+    AlbumCreatePageState state,
+  ) {
+    return FullScreenLoadingPage(
+      isLoading: state is AlbumCreateLoading ? state.isLoading : false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -55,6 +135,7 @@ class _AlbumCreatePageState extends State<AlbumCreatePage> {
                 valueListenable: _titleController,
                 builder: (_, value, __) {
                   return TextField(
+                    focusNode: _titleFocus,
                     controller: _titleController,
                     decoration: InputDecoration(
                       hintText: S.current.title,
@@ -80,16 +161,11 @@ class _AlbumCreatePageState extends State<AlbumCreatePage> {
           ),
         ),
       ),
-      floatingActionButton: ValueListenableBuilder(
-        valueListenable: _titleController,
-        builder: (BuildContext context, TextEditingValue value, Widget? child) {
-          return FloatingActionButton(
-            heroTag: UniqueKey(),
-            onPressed: value.text.isNotEmpty ? _onAddButtonPressed : null,
-            backgroundColor: value.text.isEmpty ? Colors.grey : null,
-            child: const Icon(Icons.add),
-          );
-        },
+      floatingActionButton: FloatingActionButton(
+        heroTag: UniqueKey(),
+        onPressed: _albumId != null ? _onAddButtonPressed : null,
+        backgroundColor: _albumId == null ? Colors.grey : null,
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -18,12 +18,15 @@ import '../../authentication/authentication_storage.dart' as _i9;
 import '../../google_photo/google_photo_repository.dart' as _i15;
 import '../../google_photo/google_photo_service.dart' as _i14;
 import '../../google_photo/google_photo_upload_service.dart' as _i10;
+import '../../home/album_create/album_create_page_bloc.dart' as _i18;
+import '../../home/album_create/media_item/album_media_item_view_bloc.dart'
+    as _i19;
 import '../../home/home_page_bloc.dart' as _i16;
 import '../../home/media_item_factory.dart' as _i7;
 import '../../home/photo_list/photo_list_bloc.dart' as _i17;
 import '../../login/login_page_bloc.dart' as _i11;
 import '../token_interceptor.dart' as _i12;
-import 'register_module.dart' as _i18; // ignore_for_file: unnecessary_lambdas
+import 'register_module.dart' as _i20; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -82,7 +85,13 @@ _i1.GetIt $initGetIt(
         get<_i15.GooglePhotoRepository>(),
         get<_i7.MediaItemFactory>(),
       ));
+  gh.factory<_i18.AlbumCreatePageBloc>(() => _i18.AlbumCreatePageBloc(
+        get<_i7.MediaItemFactory>(),
+        get<_i15.GooglePhotoRepository>(),
+      ));
+  gh.factory<_i19.AlbumMediaItemViewBloc>(
+      () => _i19.AlbumMediaItemViewBloc(get<_i15.GooglePhotoRepository>()));
   return get;
 }
 
-class _$RegisterModule extends _i18.RegisterModule {}
+class _$RegisterModule extends _i20.RegisterModule {}

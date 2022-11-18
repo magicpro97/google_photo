@@ -17,7 +17,7 @@ class AlbumItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: album.id,
+      tag: album.id!,
       child: GestureDetector(
         onTap: () => onAlbumPressed(album),
         child: SizedBox.shrink(
@@ -39,7 +39,7 @@ class AlbumItemView extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: CachedNetworkImage(
-                                imageUrl: album.coverPhotoBaseUrl,
+                                imageUrl: album.coverPhotoBaseUrl!,
                                 fit: BoxFit.cover,
                                 errorWidget: (_, __, ___) =>
                                     const ErrorImageView(),
@@ -58,7 +58,7 @@ class AlbumItemView extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: CachedNetworkImage(
-                                imageUrl: album.coverPhotoBaseUrl,
+                                imageUrl: album.coverPhotoBaseUrl!,
                                 fit: BoxFit.cover,
                                 errorWidget: (_, __, ___) =>
                                     const ErrorImageView(),

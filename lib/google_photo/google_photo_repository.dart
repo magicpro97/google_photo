@@ -1,3 +1,6 @@
+import 'dart:io' hide HttpResponse;
+
+import 'package:dio/dio.dart';
 import 'package:flutter_uploader/flutter_uploader.dart';
 import 'package:injectable/injectable.dart';
 
@@ -43,13 +46,15 @@ class GooglePhotoRepository {
     );
   }
 
-  Future<CreateMediaItemsResponse> createMediaItems(
-      List<NewMediaItem> newMediaItems) {
+  Future<CreateMediaItemsResponse> createMediaItems({
+    String? albumId,
+    required List<NewMediaItem> newMediaItems,
+  }) {
     return _googlePhotoService
-        .batchCreate(CreateMediaItemsRequest(newMediaItems));
+        .batchCreate(CreateMediaItemsRequest(newMediaItems: newMediaItems, albumId: ''));
   }
 
-  Future<String> uploadMediaItems({
+  Future<String> uploadMediaItemsBackground({
     required String mimeType,
     required String filePath,
     String? tag,
@@ -77,5 +82,31 @@ class GooglePhotoRepository {
 
   Future<void> cancelUploadTask(String taskId) {
     return _googlePhotoUploadService.cancel(taskId);
+  }
+
+  Future<String> uploadMediaItem({
+    required String mimeType,
+    required File file,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+  }) {
+    return _googlePhotoService.uploadMedia(
+      file,
+      mimeType,
+      cancelToken: cancelToken,
+      sendProgress: onSendProgress,
+    );
+  }
+
+  Future<Album> createAlbum(Album album) {
+    return _googlePhotoService.createAlbum(CreateAlbumRequest(album));
+  }
+
+  Future<Album> updateAlbum(Album album, {String? updateMask}) {
+    return _googlePhotoService.updateAlbum(
+      album.id!,
+      album,
+      updateMask: updateMask,
+    );
   }
 }

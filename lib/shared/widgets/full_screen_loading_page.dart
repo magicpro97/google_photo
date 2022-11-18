@@ -26,18 +26,40 @@ class FullScreenLoadingPage extends StatelessWidget {
           bottomNavigationBar: bottomNavigationBar,
           floatingActionButton: floatingActionButton,
         ),
-        Visibility(
-          visible: isLoading,
-          child: Positioned.fill(
-            child: Container(
-              color: Colors.white.withOpacity(.7),
-              child: const Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
-            ),
-          ),
+        LoadingOverlay(
+          loadCondition: isLoading,
         ),
       ],
+    );
+  }
+}
+
+class LoadingOverlay extends StatelessWidget {
+  const LoadingOverlay({
+    Key? key,
+    required this.loadCondition,
+    this.progress,
+  }) : super(key: key);
+
+  final bool loadCondition;
+  final double? progress;
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: loadCondition,
+      child: Positioned.fill(
+        child: Container(
+          color: Colors.white.withOpacity(.7),
+          child: Center(
+            child: progress == null
+                ? const CircularProgressIndicator.adaptive()
+                : CircularProgressIndicator(
+                    value: progress,
+                  ),
+          ),
+        ),
+      ),
     );
   }
 }

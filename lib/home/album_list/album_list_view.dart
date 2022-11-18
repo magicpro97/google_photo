@@ -70,15 +70,20 @@ class _AlbumListViewState extends State<AlbumListView> {
         }
       }
       _albumItemViews.addAll(state.albumItemViews);
+      _refreshController.resetNoData();
     }
   }
 
-  void _onAddButtonPressed() {
-    context.pushRoute(const AlbumCreateRoute());
+  void _onAddButtonPressed() async {
+    final refresh = await context.pushRoute(const AlbumCreateRoute());
+
+    if (refresh == true) {
+      _refreshController.requestRefresh();
+    }
   }
 
   void _onAlbumItemPressed(Album album) {
-    context.pushRoute(AlbumRoute(id: album.id));
+    context.pushRoute(AlbumRoute(id: album.id!));
   }
 
   @override

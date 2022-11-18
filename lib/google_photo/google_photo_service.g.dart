@@ -49,14 +49,14 @@ class _GooglePhotoService implements GooglePhotoService {
   }
 
   @override
-  Future<GetListAlbumResponse> createAlbum(createAlbumRequest) async {
+  Future<Album> createAlbum(createAlbumRequest) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(createAlbumRequest.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<GetListAlbumResponse>(Options(
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Album>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -68,7 +68,36 @@ class _GooglePhotoService implements GooglePhotoService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = GetListAlbumResponse.fromJson(_result.data!);
+    final value = Album.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<Album> updateAlbum(
+    albumId,
+    updateAlbumRequest, {
+    updateMask,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'updateMask': updateMask};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(updateAlbumRequest.toJson());
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Album>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/albums/${albumId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = Album.fromJson(_result.data!);
     return value;
   }
 
@@ -174,6 +203,49 @@ class _GooglePhotoService implements GooglePhotoService {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = GetListMediaItemResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<String> uploadMedia(
+    file,
+    mimeType, {
+    sendProgress,
+    cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{
+      r'Content-Type': 'application/octet-stream',
+      r'X-Goog-Upload-Protocol': 'raw',
+      r'X-Goog-Upload-Content-Type': mimeType,
+    };
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'file',
+      MultipartFile.fromFileSync(
+        file.path,
+        filename: file.path.split(Platform.pathSeparator).last,
+      ),
+    ));
+    final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+        .compose(
+          _dio.options,
+          '/uploads',
+          queryParameters: queryParameters,
+          data: _data,
+          cancelToken: cancelToken,
+          onSendProgress: sendProgress,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data!;
     return value;
   }
 

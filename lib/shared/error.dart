@@ -6,13 +6,13 @@ import 'package:google_photo/app/router/app_router.dart';
 import '../generated/l10n.dart';
 
 class AppError {
-  final String message;
+  final String? message;
 
-  AppError(this.message);
+  AppError({this.message});
 }
 
 class UnauthorizedError extends AppError {
-  UnauthorizedError(super.message);
+  UnauthorizedError({super.message});
 
   @override
   String get message => S.current.session_expired;
@@ -31,7 +31,7 @@ Future<void> showError(
         child: FlashBar(
           title: Text(S.current.error),
           content: Text(
-            error.message,
+            error.message ?? S.current.something_happened,
           ),
         ),
       );
