@@ -121,7 +121,7 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
       final tasks = mediaList
           .where((e) => e.file != null)
           .where((e) => e.file!.path.fileName.mineType != null)
-          .map((e) => _googlePhotoRepository.uploadMediaItem(
+          .map((e) => _googlePhotoRepository.uploadMediaItemV2(
                 mimeType: e.file!.path.fileName.mineType!,
                 file: e.file!,
               ))

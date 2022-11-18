@@ -28,10 +28,10 @@ class AlbumMediaItemViewBloc
   ) async {
     final media = event.mediaItem;
     await _googlePhotoRepository
-        .uploadMediaItem(
+        .uploadMediaItemV2(
             mimeType: media.file!.path.mineType!,
             file: media.file!,
-            onSendProgress: (current, total) {
+            onUploadProgress: (current, total) {
               emit(UploadProgress(progress: current / total));
             })
         .then((newItem) {

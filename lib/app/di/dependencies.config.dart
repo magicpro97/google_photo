@@ -76,6 +76,7 @@ _i1.GetIt $initGetIt(
   gh.factory<_i15.GooglePhotoRepository>(() => _i15.GooglePhotoRepository(
         get<_i14.GooglePhotoService>(),
         get<_i10.GooglePhotoUploadService>(),
+        get<_i9.AuthenticationStorage>(),
       ));
   gh.factory<_i16.HomePageBloc>(() => _i16.HomePageBloc(
         get<_i15.GooglePhotoRepository>(),
