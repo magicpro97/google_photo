@@ -89,10 +89,13 @@ class CreateMediaItemsRequest {
   @JsonKey(includeIfNull: false)
   final String? albumId;
   final List<NewMediaItem> newMediaItems;
+  @JsonKey(includeIfNull: false)
+  final AlbumPosition? albumPosition;
 
   CreateMediaItemsRequest({
     required this.newMediaItems,
     this.albumId,
+    this.albumPosition,
   });
 
   Map<String, dynamic> toJson() => _$CreateMediaItemsRequestToJson(this);
@@ -120,19 +123,22 @@ class NewMediaItem {
 
 @JsonSerializable(createFactory: false)
 class AlbumPosition {
-  final String position;
-  final String relativeMediaItemId;
+  @JsonKey(includeIfNull: false)
+  final String? position;
+  @JsonKey(includeIfNull: false)
+  final String? relativeMediaItemId;
 
-  AlbumPosition(
+  AlbumPosition({
     this.position,
     this.relativeMediaItemId,
-  );
+  });
 
   Map<String, dynamic> toJson() => _$AlbumPositionToJson(this);
 }
 
 @JsonSerializable(createFactory: false)
 class SimpleMediaItem {
+  @JsonKey(includeIfNull: false)
   final String? fileName;
   final String uploadToken;
 

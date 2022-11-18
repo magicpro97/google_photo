@@ -58,6 +58,9 @@ class AlbumCreatePageBloc
             ),
           )
         ],
+        albumPosition: AlbumPosition(
+          position: 'FIRST_IN_ALBUM',
+        ),
       );
     } catch (e) {
       _onError(e, emit);
@@ -104,7 +107,7 @@ class AlbumCreatePageBloc
     emit(const AlbumCreateLoading(isLoading: true));
     try {
       final album = await _googlePhotoRepository.updateAlbum(
-        Album(title: event.albumTitle, id:  event.albumId),
+        Album(title: event.albumTitle, id: event.albumId),
         updateMask: 'title',
       );
 

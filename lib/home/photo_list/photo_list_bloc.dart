@@ -38,19 +38,20 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
     on<UploadMedia>(_onUploadMedia);
     on<UpdateUploadStatus>(_onUpdateUploadStatus);
     on<CreateMediaItem>(_onCreateMediaItem);
+    on<CreateMediaItems>(_onCreateMediaItems);
 
-    _uploadSubscription =
-        _googlePhotoRepository.uploadMediaItemResponse$.listen((event) {
-      if (_taskIdSet[event.taskId] == UploadStatus.loading) {
-        final statusCode = event.statusCode;
-        if (statusCode != null && statusCode >= 200 && statusCode < 400) {
-          _taskIdSet[event.taskId] = UploadStatus.done;
-          add(CreateMediaItem(uploadToken: event.response!));
-        } else {
-          _taskIdSet[event.taskId] = UploadStatus.error;
-        }
-      }
-    });
+    // _uploadSubscription =
+    //     _googlePhotoRepository.uploadMediaItemResponse$.listen((event) {
+    //   if (_taskIdSet[event.taskId] == UploadStatus.loading) {
+    //     final statusCode = event.statusCode;
+    //     if (statusCode != null && statusCode >= 200 && statusCode < 400) {
+    //       _taskIdSet[event.taskId] = UploadStatus.done;
+    //       add(CreateMediaItem(uploadToken: event.response!));
+    //     } else {
+    //       _taskIdSet[event.taskId] = UploadStatus.error;
+    //     }
+    //   }
+    // });
   }
 
   int get _current => _taskIdSet.entries.fold(
@@ -120,18 +121,20 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
       final tasks = mediaList
           .where((e) => e.file != null)
           .where((e) => e.file!.path.fileName.mineType != null)
-          .map((e) => _googlePhotoRepository.uploadMediaItemsBackground(
+          .map((e) => _googlePhotoRepository.uploadMediaItem(
                 mimeType: e.file!.path.fileName.mineType!,
-                filePath: e.file!.path,
+                file: e.file!,
               ))
           .toList(growable: false);
 
-      final taskIdList = await Future.wait(tasks);
-      _taskIdSet.addAll(taskIdList.fold({}, (previousValue, element) {
-        previousValue[element] = UploadStatus.loading;
-        return previousValue;
-      }));
-      add(UpdateUploadStatus(current: 0, total: _taskIdSet.length));
+      final uploadTokens = await Future.wait(tasks);
+
+      add(CreateMediaItems(uploadTokens: uploadTokens));
+      // _taskIdSet.addAll(uploadTokens.fold({}, (previousValue, element) {
+      //   previousValue[element] = UploadStatus.loading;
+      //   return previousValue;
+      // }));
+      // add(UpdateUploadStatus(current: 0, total: _taskIdSet.length));
     }
   }
 
@@ -166,6 +169,28 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
         current: _current,
         total: _taskIdSet.length,
       ));
+
+      emit(MediaItemCreated());
+    } catch (e) {
+      _onError(e, emit);
+    }
+  }
+
+  FutureOr<void> _onCreateMediaItems(
+    CreateMediaItems event,
+    Emitter<PhotoListState> emit,
+  ) async {
+    try {
+      await _googlePhotoRepository.createMediaItems(
+        newMediaItems: event.uploadTokens
+            .map((uploadToken) =>
+            NewMediaItem(
+              simpleMediaItem: SimpleMediaItem(
+                uploadToken: uploadToken,
+              ),
+            ))
+            .toList(growable: false),
+      );
 
       emit(MediaItemCreated());
     } catch (e) {

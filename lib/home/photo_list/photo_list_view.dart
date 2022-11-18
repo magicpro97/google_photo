@@ -90,6 +90,7 @@ class _PhotoListViewState extends State<PhotoListView> {
       }
       _mediaItemViews.addAll(state.mediaItemViews);
       _mediaItems.addAll(state.mediaItems);
+      _refreshController.resetNoData();
     } else if (state is MediaItemCreated) {
       _refreshController.requestRefresh();
     } else if (state is PhotoListError) {

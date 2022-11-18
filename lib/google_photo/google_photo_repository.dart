@@ -49,9 +49,13 @@ class GooglePhotoRepository {
   Future<CreateMediaItemsResponse> createMediaItems({
     String? albumId,
     required List<NewMediaItem> newMediaItems,
+    AlbumPosition? albumPosition,
   }) {
-    return _googlePhotoService
-        .batchCreate(CreateMediaItemsRequest(newMediaItems: newMediaItems, albumId: ''));
+    return _googlePhotoService.batchCreate(CreateMediaItemsRequest(
+      newMediaItems: newMediaItems,
+      albumId: albumId,
+      albumPosition: albumPosition,
+    ));
   }
 
   Future<String> uploadMediaItemsBackground({

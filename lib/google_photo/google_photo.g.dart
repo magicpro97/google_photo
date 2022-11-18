@@ -77,6 +77,7 @@ Map<String, dynamic> _$CreateMediaItemsRequestToJson(
 
   writeNotNull('albumId', instance.albumId);
   val['newMediaItems'] = instance.newMediaItems;
+  writeNotNull('albumPosition', instance.albumPosition);
   return val;
 }
 
@@ -96,17 +97,33 @@ Map<String, dynamic> _$NewMediaItemToJson(NewMediaItem instance) {
   return val;
 }
 
-Map<String, dynamic> _$AlbumPositionToJson(AlbumPosition instance) =>
-    <String, dynamic>{
-      'position': instance.position,
-      'relativeMediaItemId': instance.relativeMediaItemId,
-    };
+Map<String, dynamic> _$AlbumPositionToJson(AlbumPosition instance) {
+  final val = <String, dynamic>{};
 
-Map<String, dynamic> _$SimpleMediaItemToJson(SimpleMediaItem instance) =>
-    <String, dynamic>{
-      'fileName': instance.fileName,
-      'uploadToken': instance.uploadToken,
-    };
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('position', instance.position);
+  writeNotNull('relativeMediaItemId', instance.relativeMediaItemId);
+  return val;
+}
+
+Map<String, dynamic> _$SimpleMediaItemToJson(SimpleMediaItem instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('fileName', instance.fileName);
+  val['uploadToken'] = instance.uploadToken;
+  return val;
+}
 
 CreateMediaItemsResponse _$CreateMediaItemsResponseFromJson(
         Map<String, dynamic> json) =>

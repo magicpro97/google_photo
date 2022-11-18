@@ -58,12 +58,14 @@ class _AlbumCreatePageState extends State<AlbumCreatePage> {
     AlbumCreatePageState state,
   ) {
     if (state is UploadingMedia) {
-      _mediaItemViews.addAll(state.albumMediaItemViews
+      final albumItemViews = state.albumMediaItemViews
           .map((e) => BlocProvider<AlbumMediaItemViewBloc>(
                 create: (_) => getIt(),
                 child: e,
               ))
-          .toList(growable: false));
+          .toList(growable: false);
+
+      _mediaItemViews.insertAll(0, albumItemViews);
     } else if (state is AlbumCreated) {
       _albumId = state.albumId;
     } else if (state is AlbumCreateError) {

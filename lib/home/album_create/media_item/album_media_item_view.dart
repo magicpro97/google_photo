@@ -48,24 +48,28 @@ class _AlbumMediaItemViewState extends State<AlbumMediaItemView> {
       tag: widget.mediaItem.id!,
       child: GestureDetector(
         onTap: () => widget.onMediaItemPressed(widget.mediaItem),
-        child: Stack(
-          children: [
-            Card(
-              elevation: 10,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(4.0),
-                child: Image.memory(
-                  widget.mediaItem.thumbnail!,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => const ErrorImageView(),
+        child: SizedBox.shrink(
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Card(
+                  elevation: 10,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4.0),
+                    child: Image.memory(
+                      widget.mediaItem.thumbnail!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const ErrorImageView(),
+                    ),
+                  ),
                 ),
               ),
-            ),
-            BlocConsumer<AlbumMediaItemViewBloc, AlbumMediaItemViewState>(
-              listener: _loadingListener,
-              builder: _loadingBuilder,
-            ),
-          ],
+              BlocConsumer<AlbumMediaItemViewBloc, AlbumMediaItemViewState>(
+                listener: _loadingListener,
+                builder: _loadingBuilder,
+              ),
+            ],
+          ),
         ),
       ),
     );

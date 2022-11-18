@@ -53,3 +53,12 @@ class CreateMediaItem extends PhotoListEvent {
   @override
   List<Object?> get props => [uploadToken];
 }
+
+class CreateMediaItems extends PhotoListEvent {
+  final List<String> uploadTokens;
+
+  const CreateMediaItems({required this.uploadTokens});
+
+  @override
+  List<Object?> get props => [uploadTokens];
+}

@@ -9,6 +9,7 @@ import 'package:google_photo/google_photo/google_photo_service.dart';
 import 'package:google_photo/shared/constants.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../firebase_options.dart';
@@ -27,7 +28,12 @@ abstract class RegisterModule {
         BaseOptions(
           baseUrl: baseUrl,
         ),
-      )..interceptors.add(tokenInterceptor);
+      )
+        ..interceptors.add(tokenInterceptor)
+        ..interceptors.add(PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+        ));
 
   @singleton
   GooglePhotoService getGooglePhotoService(
