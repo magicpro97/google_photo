@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_uploader/flutter_uploader.dart';
 import 'package:google_photo/shared/extensions.dart';
 import 'package:injectable/injectable.dart';
 import 'package:media_picker_widget/media_picker_widget.dart';
@@ -24,7 +23,7 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
   final GooglePhotoRepository _googlePhotoRepository;
   final MediaItemFactory _mediaItemFactory;
 
-  late final StreamSubscription<UploadTaskResponse> _uploadSubscription;
+  // late final StreamSubscription<UploadTaskResponse> _uploadSubscription;
 
   final _taskIdSet = <String, UploadStatus>{};
 
@@ -67,7 +66,7 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
   @override
   Future<void> close() async {
     super.close();
-    _uploadSubscription.cancel();
+    //_uploadSubscription.cancel();
   }
 
   FutureOr<void> _onGetMediaItems(
@@ -183,12 +182,11 @@ class PhotoListBloc extends Bloc<PhotoListEvent, PhotoListState> {
     try {
       await _googlePhotoRepository.createMediaItems(
         newMediaItems: event.uploadTokens
-            .map((uploadToken) =>
-            NewMediaItem(
-              simpleMediaItem: SimpleMediaItem(
-                uploadToken: uploadToken,
-              ),
-            ))
+            .map((uploadToken) => NewMediaItem(
+                  simpleMediaItem: SimpleMediaItem(
+                    uploadToken: uploadToken,
+                  ),
+                ))
             .toList(growable: false),
       );
 
